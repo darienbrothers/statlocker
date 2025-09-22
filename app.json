@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "statlockerv1",
-    "slug": "statlockerv1",
+    "name": "statlocker",
+    "slug": "statlocker",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "statlockerv1",
+    "scheme": "statlocker",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
