@@ -24,7 +24,8 @@ export default function RootLayout() {
       <Stack.Screen name="main" />
       <Stack.Screen name="onboarding" />
       <Stack.Screen name="(tabs)" />
-      <Stack.Screen name="(modals)" options={{ presentation: 'modal' }} />
+      <Stack.Screen name="(modals)/log-live" options={{ presentation: 'modal' }} />
+      <Stack.Screen name="(modals)/log-post-game" options={{ presentation: 'modal' }} />
     </Stack>
   );
 }

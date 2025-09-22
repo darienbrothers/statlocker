@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "statlocker",
+    "bundleIdentifier": "com.statlocker.app",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "experiments": { 
@@ -17,7 +18,8 @@
       "backgroundColor": "#0F0F12"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.statlocker.app"
     },
     "android": {
       "adaptiveIcon": {
@@ -25,7 +27,8 @@
         "backgroundColor": "#0F0F12"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.statlocker.app"
     },
     "web": {
       "bundler": "metro",

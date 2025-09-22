@@ -63,15 +63,54 @@ const DrawerNavigator: React.FC<DrawerNavigatorProps> = ({ isOpen, onClose, chil
   };
 
   const drawerItems: DrawerItem[] = [
+    // Main navigation items
+    {
+      id: 'dashboard',
+      title: 'Dashboard',
+      icon: 'home',
+      onPress: () => {
+        console.log('Navigate to Dashboard');
+        onClose();
+      },
+    },
+    {
+      id: 'stats',
+      title: 'Stats & Analytics',
+      icon: 'bar-chart',
+      onPress: () => {
+        console.log('Navigate to Stats');
+        onClose();
+      },
+    },
+    {
+      id: 'recruiting',
+      title: 'Recruiting',
+      icon: 'school',
+      onPress: () => {
+        console.log('Navigate to Recruiting');
+        onClose();
+      },
+    },
+    {
+      id: 'skills',
+      title: 'Skills Training',
+      icon: 'fitness',
+      onPress: () => {
+        console.log('Navigate to Skills');
+        onClose();
+      },
+    },
+    // Additional features
     {
       id: 'ai-insights',
       title: 'AI Insights',
-      icon: 'analytics',
+      icon: 'bulb',
       badge: 3,
       onPress: () => {
         console.log('Navigate to AI Insights');
         onClose();
       },
+      disabled: true, // Unlocked after 3+ games
     },
     {
       id: 'schedule',
@@ -86,13 +125,14 @@ const DrawerNavigator: React.FC<DrawerNavigatorProps> = ({ isOpen, onClose, chil
       id: 'messages',
       title: 'Messages',
       icon: 'chatbubbles',
-      badge: 2,
+      badge: 3,
       onPress: () => {
         console.log('Navigate to Messages');
         onClose();
       },
       disabled: true, // Stubbed for MVP
     },
+    // Account section
     {
       id: 'profile',
       title: 'Profile',

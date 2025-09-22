@@ -43,7 +43,7 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
       if (onFinish) {
         onFinish();
       } else {
-        router.replace('/(tabs)');
+        router.replace('/(tabs)/dashboard');
       }
     }, 2500);
 
