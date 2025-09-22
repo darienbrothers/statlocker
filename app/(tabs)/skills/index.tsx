@@ -1,1 +1,6 @@
-// Skills tab screen - drill library with progress tracking
+import React from 'react';
+import SkillsScreen from '../../../features/skills/screens/SkillsScreen';
+
+export default function SkillsTab() {
+  return <SkillsScreen />;
+}

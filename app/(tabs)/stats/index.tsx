@@ -1,1 +1,6 @@
-// Stats tab screen - performance analytics with filters and charts
+import React from 'react';
+import StatsScreen from '../../../features/stats/screens/StatsScreen';
+
+export default function StatsTab() {
+  return <StatsScreen />;
+}

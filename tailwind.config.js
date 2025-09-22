@@ -1,28 +1,30 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./app/**/*.{js,jsx,ts,tsx}",
-    "./components/**/*.{js,jsx,ts,tsx}",
-    "./features/**/*.{js,jsx,ts,tsx}",
-  ],
+  content: ["./app/**/*.{ts,tsx}", "./features/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        brandPrimary: '#6E57FF',
-        accent: '#00E08A',
-        surface: '#1A1A1A',
-        onSurface: '#FFFFFF',
-        muted: '#6B7280',
-        danger: '#EF4444',
-        warning: '#F59E0B',
-        success: '#10B981',
+        brand: {
+          DEFAULT: "#6E57FF", // BrandPrimary
+          tint: "#9B8BFF"
+        },
+        accent: "#00E08A",
+        surface: {
+          DEFAULT: "#0F0F12",
+          elevated: "#16161A"
+        },
+        on: {
+          surface: "#E8E8EA",
+          muted: "#B5B5BB"
+        },
+        danger: "#DA2E2E",
+        warning: "#C7781F",
+        success: "#10B981",
+        divider: "#25252A"
       },
-      fontFamily: {
-        'anton': ['Anton'],
-        'jakarta': ['PlusJakartaSans'],
-      },
-    },
+      borderRadius: { xl: "16px", "2xl": "20px" }
+    }
   },
-  plugins: [],
-}
+  plugins: []
+};
 

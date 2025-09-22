@@ -1,1 +1,6 @@
-// Recruiting tab screen - school organization and recruiting tasks
+import React from 'react';
+import RecruitingScreen from '../../../features/recruiting/screens/RecruitingScreen';
+
+export default function RecruitingTab() {
+  return <RecruitingScreen />;
+}
