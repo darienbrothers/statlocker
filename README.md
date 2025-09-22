@@ -61,59 +61,103 @@ npm run android
 
 ```
 statlocker/
-├── app/                          # Expo Router pages
-│   ├── (tabs)/                   # Bottom tab navigation
-│   │   ├── _layout.tsx          # Tab layout with FAB
-│   │   ├── index.tsx            # Dashboard tab
-│   │   ├── stats.tsx            # Stats tab
-│   │   ├── recruiting.tsx       # Recruiting tab
-│   │   └── skills.tsx           # Skills tab
-│   ├── (modals)/                # Modal screens
-│   │   ├── post-game.tsx        # Post-game logging
-│   │   └── live-track.tsx       # Live game tracking
-│   ├── onboarding/              # 5-step onboarding flow
-│   │   ├── _layout.tsx          # Onboarding stack
-│   │   ├── name.tsx             # Step 1: Name
-│   │   ├── sport-position.tsx   # Step 2: Sport/Position/Grad
-│   │   ├── team-info.tsx        # Step 3: Team information
-│   │   ├── goals.tsx            # Step 4: SMART goals
-│   │   ├── review.tsx           # Step 5: Review & create account
-│   │   └── congrats.tsx         # Congratulations screen
-│   └── _layout.tsx              # Root layout
-├── components/                   # Reusable UI components
-│   ├── ui/                      # Base UI components
-│   └── forms/                   # Form components
-├── features/                     # Feature-specific modules
-│   ├── dashboard/               # Dashboard feature
-│   │   ├── components/          # Dashboard components
-│   │   ├── store/               # Dashboard state
-│   │   └── types.ts             # Dashboard types
-│   ├── stats/                   # Stats feature
-│   ├── recruiting/              # Recruiting feature
-│   ├── skills/                  # Skills feature
-│   └── auth/                    # Authentication feature
-├── state/                       # Global state stores
-│   ├── auth.store.ts           # Authentication state
-│   └── user.store.ts           # User profile state
-├── services/                    # External service integrations
-│   ├── firebase.ts             # Firebase configuration
-│   ├── auth.service.ts         # Authentication service
-│   └── firestore.service.ts    # Firestore operations
-├── utils/                       # Utility functions
-│   ├── math.ts                 # Derived stats calculations
-│   ├── validation.ts           # Zod schemas
-│   └── constants.ts            # App constants
-├── theme/                       # Design system
-│   ├── tokens.ts               # Design tokens
-│   └── colors.ts               # Color definitions
-├── assets/                      # Static assets
-│   ├── fonts/                  # Custom fonts
-│   └── images/                 # Images and icons
-└── docs/                        # Documentation
-    ├── specs/                  # Feature specifications
-    ├── bdd/                    # Behavior-driven development scenarios
-    ├── prd/                    # Product requirements
-    └── guides/                 # Development guides
+├── app/                                    # Expo Router pages
+│   ├── (tabs)/                            # Bottom tab navigation
+│   │   ├── _layout.tsx                    # Tab layout with FAB
+│   │   ├── dashboard/index.tsx            # Dashboard tab
+│   │   ├── stats/index.tsx                # Stats tab
+│   │   ├── recruiting/index.tsx           # Recruiting tab
+│   │   └── skills/index.tsx               # Skills tab
+│   ├── (modals)/                          # Modal screens
+│   │   ├── log-post-game.tsx              # Post-game logging
+│   │   └── log-live.tsx                   # Live game tracking
+│   ├── onboarding/                        # 5-step onboarding flow
+│   │   ├── _layout.tsx                    # Onboarding stack
+│   │   ├── welcome.tsx                    # Welcome screen
+│   │   ├── name.tsx                       # Step 1: Name
+│   │   ├── sport-gender-position-grad.tsx # Step 2: Sport/Gender/Position/Grad
+│   │   ├── team.tsx                       # Step 3: Team information
+│   │   ├── goals.tsx                      # Step 4: SMART goals
+│   │   ├── review-create.tsx              # Step 5: Review & create account
+│   │   └── congrats.tsx                   # Congratulations screen
+│   └── _layout.tsx                        # Root layout
+├── features/                              # Feature-specific modules
+│   ├── dashboard/                         # Dashboard feature
+│   │   ├── screens/DashboardScreen.tsx    # Main dashboard screen
+│   │   ├── components/StatCard.tsx        # Stat card component
+│   │   ├── components/InsightsPreview.tsx # AI insights preview
+│   │   ├── store/dashboard.store.ts       # Dashboard state
+│   │   └── types.ts                       # Dashboard types
+│   ├── stats/                             # Stats feature
+│   │   ├── screens/StatsScreen.tsx        # Stats analysis screen
+│   │   ├── components/FilterBar.tsx       # Filter bar component
+│   │   ├── components/PerformanceChart.tsx # Performance charts
+│   │   ├── store/stats.store.ts           # Stats state
+│   │   └── types.ts                       # Stats types
+│   ├── recruiting/                        # Recruiting feature
+│   │   ├── screens/RecruitingScreen.tsx   # Recruiting organizer
+│   │   ├── components/SchoolCard.tsx      # School card component
+│   │   ├── components/TaskChecklist.tsx   # Task checklist
+│   │   ├── store/recruiting.store.ts      # Recruiting state
+│   │   └── types.ts                       # Recruiting types
+│   ├── skills/                            # Skills feature
+│   │   ├── screens/SkillsScreen.tsx       # Skills library screen
+│   │   ├── components/DrillCard.tsx       # Drill card component
+│   │   ├── components/WeeklyProgress.tsx  # Weekly progress tracker
+│   │   ├── store/skills.store.ts          # Skills state
+│   │   └── types.ts                       # Skills types
+│   ├── drawer/                            # Hamburger menu screens
+│   │   ├── AIInsightsScreen.tsx           # AI insights screen
+│   │   ├── ScheduleScreen.tsx             # Schedule screen
+│   │   ├── MessagesScreen.tsx             # Messages screen (stubbed)
+│   │   └── ProfileScreen.tsx              # Profile screen
+│   └── log/                               # Game logging features
+│       ├── PostGameScreen.tsx             # Post-game logging
+│       └── LiveTrackScreen.tsx            # Live tracking
+├── components/                            # Shared UI components
+│   ├── Button.tsx                         # Button component
+│   ├── Card.tsx                           # Card component
+│   ├── ProgressBar.tsx                    # Progress bar component
+│   ├── Fab.tsx                            # Floating action button
+│   └── ModalSheet.tsx                     # Modal sheet component
+├── state/                                 # Global state stores
+│   ├── auth.store.ts                      # Authentication state
+│   ├── ui.store.ts                        # UI state (modals, loading)
+│   └── games.store.ts                     # Games data state
+├── services/                              # External service integrations
+│   └── firebase/                          # Firebase services
+│       ├── firebase.app.ts                # Firebase configuration
+│       ├── auth.service.ts                # Authentication service
+│       ├── firestore.service.ts           # Firestore operations
+│       └── storage.service.ts             # Storage operations
+├── utils/                                 # Utility functions
+│   ├── validation.ts                      # Zod validation schemas
+│   ├── format.ts                          # Formatting utilities
+│   └── math.ts                            # Math calculations
+├── theme/                                 # Design system
+│   ├── tokens.ts                          # Design tokens
+│   ├── typography.ts                      # Typography definitions
+│   └── nativewind.config.js               # NativeWind configuration
+├── assets/                                # Static assets
+│   ├── fonts/                             # Custom fonts
+│   │   ├── Anton-Regular.ttf              # Display font
+│   │   ├── PlusJakartaSans-Regular.ttf    # Body font
+│   │   ├── PlusJakartaSans-Medium.ttf     # Medium weight
+│   │   └── PlusJakartaSans-SemiBold.ttf   # Semi-bold weight
+│   ├── images/                            # Images and graphics
+│   └── icons/                             # Custom icons
+├── docs/                                  # Documentation
+│   ├── prd/ProductRequirements.md         # Product requirements
+│   ├── specs/                             # Feature specifications
+│   ├── bdd/                               # BDD scenarios
+│   └── guides/                            # Development guides
+├── app.json                               # Expo configuration
+├── app.config.ts                          # Expo app config
+├── babel.config.js                        # Babel configuration
+├── tailwind.config.js                     # Tailwind CSS config
+├── tsconfig.json                          # TypeScript config
+├── package.json                           # Dependencies and scripts
+└── README.md                              # Project documentation
 ```
 
 ## 🎨 Design System
