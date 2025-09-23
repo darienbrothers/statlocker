@@ -1,31 +1,30 @@
-// Premium color palette for StatLocker - Multi-million dollar app feel
+// Premium color palette for StatLocker - Light theme
 export const Colors = {
   // Brand Colors
   brand: {
-    primary: "#6E57FF",
-    primaryTint: "#9B8BFF",
-    primaryShade: "#5A47E6",
-    accent: "#00E08A",
-    accentTint: "#33E6A3",
-    accentShade: "#00C777",
+    primary: '#6366F1',      // Indigo-500
+    primaryTint: '#818CF8',  // Indigo-400
+    primaryShade: '#4F46E5', // Indigo-600
+    secondary: '#10B981',    // Emerald-500
+    accent: '#F59E0B',       // Amber-500
   },
 
-  // Surface Colors - Premium dark theme
+  // Surface Colors - Light theme
   surface: {
-    primary: "#0F0F12",      // Main background
-    elevated: "#16161A",     // Cards, modals
-    elevated2: "#1C1C21",    // Higher elevation
-    elevated3: "#222228",    // Highest elevation
-    overlay: "#0F0F12CC",    // 80% opacity overlay
+    primary: '#FFFFFF',      // White background
+    elevated: '#F9FAFB',     // Gray-50 for cards
+    elevated2: '#F3F4F6',    // Gray-100 for nested elements
+    elevated3: '#E5E7EB',    // Gray-200 for highest elevation
+    overlay: 'rgba(0, 0, 0, 0.5)', // Modal overlays
   },
 
-  // Text Colors
+  // Text Colors - Light theme
   text: {
-    primary: "#E8E8EA",      // Primary text
-    secondary: "#B5B5BB",    // Secondary text
-    tertiary: "#8A8A90",     // Tertiary text
-    disabled: "#5A5A60",     // Disabled text
-    inverse: "#0F0F12",      // Text on light backgrounds
+    primary: '#111827',      // Gray-900 - main text
+    secondary: '#6B7280',    // Gray-500 - secondary text
+    tertiary: '#9CA3AF',     // Gray-400 - muted text
+    disabled: '#D1D5DB',     // Gray-300 - disabled text
+    inverse: '#FFFFFF',      // White text on dark backgrounds
   },
 
   // Semantic Colors
@@ -40,30 +39,40 @@ export const Colors = {
     infoTint: "#60A5FA",
   },
 
-  // Border & Divider Colors
+  // Border & Divider Colors - Light theme
   border: {
-    primary: "#25252A",      // Main borders
-    secondary: "#1C1C21",    // Subtle borders
-    focus: "#6E57FF",        // Focus states
-    success: "#10B981",
-    warning: "#C7781F",
-    danger: "#DA2E2E",
+    primary: '#E5E7EB',      // Gray-200 - main borders
+    secondary: '#F3F4F6',    // Gray-100 - subtle borders
+    focus: '#6366F1',        // Brand primary for focus
+    success: '#10B981',
+    warning: '#F59E0B',
+    danger: '#EF4444',
+    accent: '#6366F1',       // Brand primary
   },
 
-  // Interactive States
+  // Interactive States - Light theme
   interactive: {
-    hover: "#FFFFFF0A",      // 4% white overlay
-    pressed: "#FFFFFF14",    // 8% white overlay
-    selected: "#6E57FF1A",   // 10% brand overlay
-    disabled: "#FFFFFF05",   // 2% white overlay
+    hover: 'rgba(0, 0, 0, 0.05)',     // Light black overlay
+    pressed: 'rgba(0, 0, 0, 0.1)',    // Darker black overlay
+    selected: 'rgba(99, 102, 241, 0.1)', // Brand overlay
+    disabled: 'rgba(0, 0, 0, 0.02)',  // Very light overlay
+    focus: 'rgba(99, 102, 241, 0.1)',
+  },
+
+  // Status Colors
+  status: {
+    success: '#10B981',      // Emerald-500
+    warning: '#F59E0B',      // Amber-500
+    error: '#EF4444',        // Red-500
+    info: '#3B82F6',         // Blue-500
   },
 
   // Gradients
   gradients: {
-    brand: ["#6E57FF", "#9B8BFF"],
-    accent: ["#00E08A", "#33E6A3"],
-    surface: ["#0F0F12", "#16161A"],
-    success: ["#10B981", "#34D399"],
-    danger: ["#DA2E2E", "#EF4444"],
+    primary: ['#6366F1', '#818CF8'],
+    surface: ['#FFFFFF', '#F9FAFB'],
+    accent: ['#F59E0B', '#FBBF24'],
+    success: ['#10B981', '#34D399'],
+    danger: ['#EF4444', '#F87171'],
   },
 } as const;

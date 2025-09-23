@@ -20,8 +20,8 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
   const logoScale = useRef(new Animated.Value(0.8)).current;
 
   useEffect(() => {
-    // Set status bar to light content for black background
-    StatusBar.setBarStyle('light-content', true);
+    // Set status bar to dark content for white background
+    StatusBar.setBarStyle('dark-content', true);
 
     // Animate logo entrance
     Animated.parallel([
@@ -54,7 +54,7 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#000000" />
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
       {/* Logo */}
       <Animated.View
@@ -79,7 +79,7 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: '#FFFFFF',
     justifyContent: 'center',
     alignItems: 'center',
   },

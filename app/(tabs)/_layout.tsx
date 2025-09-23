@@ -20,7 +20,7 @@ const FloatingActionButton = () => {
   return (
     <View style={{
       position: 'absolute',
-      top: -30,
+      top: -28, // Adjusted for new tab bar height
       left: screenWidth / 2 - 30,
       width: 60,
       height: 60,
@@ -57,9 +57,9 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
       backgroundColor: Colors.surface.elevated,
       borderTopWidth: 1,
       borderTopColor: Colors.border.primary,
-      paddingBottom: 34, // Safe area
-      paddingTop: 20,
-      height: 100,
+      paddingBottom: 28, // Reduced safe area
+      paddingTop: 8, // Reduced top padding
+      height: 76, // Reduced height
       flexDirection: 'row',
       alignItems: 'center',
       ...Shadows.card,
@@ -131,7 +131,7 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
               style={{
                 alignItems: 'center',
                 justifyContent: 'center',
-                paddingVertical: 8,
+                paddingVertical: 4, // Reduced padding
                 opacity: isFocused ? 1 : 0.7,
                 minWidth: 60, // Ensure consistent touch target
               }}

@@ -10,13 +10,13 @@ export default function RootLayout() {
     "PlusJakartaSans-SemiBold": require("../assets/fonts/PlusJakartaSans-SemiBold.ttf"),
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
-  if (!loaded) return <View style={{ flex:1, backgroundColor:"#0F0F12" }} />;
+  if (!loaded) return <View style={{ flex:1, backgroundColor:"#FFFFFF" }} />;
 
   return (
     <Stack
       screenOptions={{
         headerShown: false,
-        contentStyle: { backgroundColor: "#0F0F12" }
+        contentStyle: { backgroundColor: "#FFFFFF" }
       }}
     >
       <Stack.Screen name="index" />
