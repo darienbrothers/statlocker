@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, ScrollView, Image, Pressable } from 'react-native';
+import { View, Text, ScrollView, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MotiView } from 'moti';
 import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
+import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 
 import { Colors, Typography, Spacing, BorderRadius, Shadows } from '../../../shared/theme';
@@ -656,11 +656,9 @@ const AIInsights = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
         alignItems: 'center',
         marginBottom: Spacing.lg,
       }}>
-        <Ionicons name="school" size={24} color={Colors.brand.primary} />
         <Text style={{
           ...Typography.styles.h2,
           color: Colors.text.primary,
-          marginLeft: Spacing.md,
           fontWeight: '600',
           fontSize: 24,
           lineHeight: 32,
@@ -1051,7 +1049,7 @@ const RecentGames = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
 
   const handleViewAllGames = async () => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    console.log('Navigate to all games');
+    router.push('/(tabs)/stats');
   };
 
   const handleGamePress = async (gameId: string) => {
@@ -1079,11 +1077,9 @@ const RecentGames = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
           alignItems: 'center',
           marginBottom: Spacing.lg,
         }}>
-          <Ionicons name="trophy" size={24} color={Colors.brand.primary} />
           <Text style={{
             ...Typography.styles.h2,
             color: Colors.text.primary,
-            marginLeft: Spacing.md,
             fontWeight: '600',
             fontSize: 24,
             lineHeight: 32,
@@ -1122,11 +1118,9 @@ const RecentGames = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
         marginBottom: Spacing.lg,
       }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Ionicons name="trophy" size={24} color={Colors.brand.primary} />
           <Text style={{
             ...Typography.styles.h2,
             color: Colors.text.primary,
-            marginLeft: Spacing.md,
             fontWeight: '600',
             fontSize: 24,
             lineHeight: 32,
@@ -1241,6 +1235,7 @@ const RecentGames = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
                 paddingTop: Spacing.md,
                 borderTopWidth: 1,
                 borderTopColor: Colors.border.secondary,
+                marginBottom: Spacing.md,
               }}>
                 {game.topStats.map((stat, statIndex) => (
                   <View key={statIndex} style={{ alignItems: 'center', flex: 1 }}>
@@ -1266,6 +1261,33 @@ const RecentGames = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
                   </View>
                 ))}
               </View>
+
+              {/* View Full Stats Button */}
+              <Pressable
+                onPress={async () => {
+                  await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                  router.push(`/stats/game/${game.id}`);
+                }}
+                style={{
+                  backgroundColor: 'transparent',
+                  borderWidth: 1,
+                  borderColor: Colors.brand.primary,
+                  borderRadius: BorderRadius.lg,
+                  paddingVertical: Spacing.sm,
+                  paddingHorizontal: Spacing.md,
+                  alignItems: 'center',
+                }}
+              >
+                <Text style={{
+                  ...Typography.styles.body,
+                  color: Colors.brand.primary,
+                  fontWeight: '600',
+                  fontSize: 14,
+                  lineHeight: 18,
+                }}>
+                  View Full Stats
+                </Text>
+              </Pressable>
             </Pressable>
           </MotiView>
         ))}
@@ -1360,7 +1382,7 @@ const UpcomingEvents = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
 
   const handleViewCalendar = async () => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    console.log('Navigate to full calendar');
+    router.push('/(tabs)/schedule');
   };
 
   return (
@@ -1384,11 +1406,9 @@ const UpcomingEvents = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
         marginBottom: Spacing.lg,
       }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Ionicons name="calendar" size={24} color={Colors.brand.primary} />
           <Text style={{
             ...Typography.styles.h2,
             color: Colors.text.primary,
-            marginLeft: Spacing.md,
             fontWeight: '600',
             fontSize: 24,
             lineHeight: 32,
