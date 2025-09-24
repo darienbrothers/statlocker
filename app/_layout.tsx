@@ -9,11 +9,10 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded] = useFonts({
-    Anton: require("../assets/fonts/Anton-Regular.ttf"),
-    PlusJakartaSans: require("../assets/fonts/PlusJakartaSans-Regular.ttf"),
+    "Anton-Regular": require("../assets/fonts/Anton-Regular.ttf"),
+    "PlusJakartaSans-Regular": require("../assets/fonts/PlusJakartaSans-Regular.ttf"),
     "PlusJakartaSans-Medium": require("../assets/fonts/PlusJakartaSans-Medium.ttf"),
     "PlusJakartaSans-SemiBold": require("../assets/fonts/PlusJakartaSans-SemiBold.ttf"),
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
 
   useEffect(() => {
@@ -39,7 +38,7 @@ export default function RootLayout() {
       <Stack.Screen name="main" />
       <Stack.Screen name="onboarding" />
       <Stack.Screen name="(tabs)" />
-      <Stack.Screen name="stats" />
+      <Stack.Screen name="stats/game/[gameId]" />
       <Stack.Screen name="(modals)/log-live" options={{ presentation: 'modal' }} />
       <Stack.Screen name="(modals)/log-post-game" options={{ presentation: 'modal' }} />
     </Stack>
