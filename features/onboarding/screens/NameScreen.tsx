@@ -22,8 +22,9 @@ import * as Haptics from 'expo-haptics';
 import { MotiView } from 'moti';
 
 import { Colors, Typography, Spacing, BorderRadius, Shadows } from '../../../shared/theme';
-import OnboardingNavigator, { OnboardingStep } from '../../../shared/components/OnboardingNavigator';
-import { getOnboardingStepsWithProgress, getCurrentStepNumber } from '../../../shared/config/onboardingSteps';
+import InlineStepper from '../../../shared/components/InlineStepper';
+import { onboardingSteps, getCurrentStepIndex } from '../../../shared/config/onboardingSteps';
+import { OnboardingStepKey } from '../../../shared/types/Onboarding';
 
 // Constants for layout calculations
 const STEPPER_HEIGHT = 72;
@@ -35,12 +36,11 @@ export default function NameScreen() {
   // Safe area and layout
   const insets = useSafeAreaInsets();
 
-  // Get onboarding steps with current progress
-  const completedSteps: string[] = []; // TODO: Load from AsyncStorage
-  const onboardingSteps = getOnboardingStepsWithProgress(completedSteps);
-  const currentStepNumber = getCurrentStepNumber('name');
+  // Get current step info
+  const currentStepKey: OnboardingStepKey = 'name';
+  const currentStepIndex = getCurrentStepIndex(currentStepKey);
+  const completedSteps: OnboardingStepKey[] = []; // TODO: Load from AsyncStorage
   
-  // State
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [firstNameError, setFirstNameError] = useState('');
@@ -48,7 +48,6 @@ export default function NameScreen() {
   const [currentInputIndex, setCurrentInputIndex] = useState(0);
   const [firstNameFocused, setFirstNameFocused] = useState(false);
   const [lastNameFocused, setLastNameFocused] = useState(false);
-  const [showProgressToast, setShowProgressToast] = useState(false);
 
   // Analytics tracking
   const [stepStartTime] = useState(Date.now());
@@ -56,7 +55,6 @@ export default function NameScreen() {
 
   // Animation refs
   const bounceAnim = useRef(new Animated.Value(1)).current;
-  const fadeAnim = useRef(new Animated.Value(0)).current;
   
   // Floating label animations
   const firstNameLabelAnim = useRef(new Animated.Value(firstName || firstNameFocused ? 1 : 0)).current;
@@ -68,13 +66,46 @@ export default function NameScreen() {
   
   // Input shake animations
   const firstNameShakeAnim = useRef(new Animated.Value(0)).current;
-  const lastNameShakeAnim = useRef(new Animated.Value(0)).current;
+      const lastNameShakeAnim = useRef(new Animated.Value(0)).current;
   
+  const handleInputFocus = (node: any, index: number) => {
+    setCurrentInputIndex(index);
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current);
+    }
+    scrollTimeoutRef.current = setTimeout(() => {
+      node?.measureLayout(
+        scrollViewRef.current?.getInnerViewNode(),
+        (x: number, y: number) => {
+          scrollViewRef.current?.scrollTo({ y: y - 20, animated: true });
+        },
+        () => {}
+      );
+    }, 200);
+  };
+
+  const handleInputAccessoryPrevious = () => {
+    if (currentInputIndex > 0) {
+      firstNameInputRef.current?.focus();
+    }
+  };
+
+  const handleInputAccessoryNext = () => {
+    if (currentInputIndex < 1) {
+      lastNameInputRef.current?.focus();
+    }
+  };
+
+  const handleInputAccessoryDone = () => {
+    Keyboard.dismiss();
+    if (isFormValid) {
+      handleContinue();
+    }
+  };
+
   // Button breathing animation
   const breathingAnim = useRef(new Animated.Value(0)).current;
   
-  // Progress toast animation
-  const toastAnim = useRef(new Animated.Value(0)).current;
 
   // Input refs for keyboard handling
   const firstNameInputRef = useRef<TextInput>(null);
@@ -136,12 +167,6 @@ export default function NameScreen() {
   // Load data on mount and cleanup
   useEffect(() => {
     loadData();
-    // Fade in animation
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 600,
-      useNativeDriver: true,
-    }).start();
 
     // Cleanup timeout on unmount and track drop-off
     return () => {
@@ -303,7 +328,7 @@ export default function NameScreen() {
     handleInputFocus(lastNameInputRef.current, 1);
   };
 
-  const handleLastNameBlur = () => {
+      const handleLastNameBlur = () => {
     setLastNameFocused(false);
     validateLastName(lastName);
   };
@@ -356,96 +381,27 @@ export default function NameScreen() {
       AsyncStorage.setItem('onboarding_firstName', finalFirstName);
       AsyncStorage.setItem('onboarding_lastName', finalLastName);
 
-      // Show progress toast
-      setShowProgressToast(true);
-      Animated.sequence([
-        Animated.timing(toastAnim, {
-          toValue: 1,
-          duration: 300,
-          useNativeDriver: true,
-        }),
-        Animated.delay(1000),
-        Animated.timing(toastAnim, {
-          toValue: 0,
-          duration: 300,
-          useNativeDriver: true,
-        }),
-      ]).start(() => {
-        setShowProgressToast(false);
-        // Navigate to basic info
-        router.push('/onboarding/basic-info');
-      });
+      // Navigate to profile image screen
+      router.push('/onboarding/profile-image');
     });
   };
 
-  const handleBackPress = async () => {
-    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+  const handleBackPress = () => {
     router.back();
   };
 
-  // Enhanced input focus handling with throttled scrolling
-  const handleInputFocus = useCallback((inputRef: TextInput | null, inputIndex: number) => {
-    setCurrentInputIndex(inputIndex);
-    
-    if (inputRef && scrollViewRef.current) {
-      // Clear any existing timeout
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-      
-      // Throttled scroll with clamping
-      scrollTimeoutRef.current = setTimeout(() => {
-        inputRef.measure((x, y, width, height, pageX, pageY) => {
-          if (scrollViewRef.current) {
-            // Calculate target scroll position with safe margins
-            const targetY = Math.max(0, pageY - 120);
-            const maxScrollY = Math.max(0, pageY - 200);
-            const clampedY = Math.min(targetY, maxScrollY);
-            
-            scrollViewRef.current.scrollTo({
-              y: clampedY,
-              animated: true,
-            });
-          }
-        });
-      }, 150);
-    }
-  }, []);
-
-  // Input accessory view navigation
-  const handleInputAccessoryNext = useCallback(() => {
-    if (currentInputIndex === 0) {
-      lastNameInputRef.current?.focus();
-    } else {
-      Keyboard.dismiss();
-    }
-  }, [currentInputIndex]);
-
-  const handleInputAccessoryPrevious = useCallback(() => {
-    if (currentInputIndex === 1) {
-      firstNameInputRef.current?.focus();
-    }
-  }, [currentInputIndex]);
-
-  const handleInputAccessoryDone = useCallback(() => {
-    Keyboard.dismiss();
-    if (isFormValid) {
-      handleContinue();
-    }
-  }, [isFormValid]);
 
   return (
     <SafeAreaView style={{
       flex: 1,
       backgroundColor: Colors.surface.primary,
     }}>
-      <OnboardingNavigator
-        currentStep={currentStepNumber}
-        totalSteps={onboardingSteps.length}
-        currentStepId="name"
+            <InlineStepper
         steps={onboardingSteps}
-        showBackButton={true}
-        onBackPress={handleBackPress}
+        currentIndex={currentStepIndex}
+        completedSteps={[]}
+        showBack={true}
+        onBack={handleBackPress}
       />
 
       <KeyboardAvoidingView
@@ -465,22 +421,12 @@ export default function NameScreen() {
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
           >
-            <Animated.View style={{ opacity: fadeAnim }}>
+            <Animated.View>
               {/* Header Section */}
               <View style={{
                 alignItems: 'center',
-                paddingTop: Spacing.lg,
-                paddingBottom: Spacing.xl,
+                paddingVertical: Spacing.xl,
               }}>
-                <Image
-                  source={require('../../../assets/images/logoBlack.png')}
-                  style={{
-                    width: 56,
-                    height: 56,
-                    marginBottom: Spacing.xl,
-                  }}
-                  resizeMode="contain"
-                />
                 
                 <Text style={{
                   fontSize: 20,
@@ -587,7 +533,7 @@ export default function NameScreen() {
                         onChangeText={handleFirstNameChange}
                         onBlur={handleFirstNameBlur}
                         onFocus={handleFirstNameFocus}
-                        placeholder={firstNameFocused || firstName ? '' : 'Enter your first name'}
+                        placeholder=''
                         placeholderTextColor={Colors.text.tertiary}
                         autoCapitalize="words"
                         autoCorrect={false}
@@ -697,7 +643,7 @@ export default function NameScreen() {
                         onChangeText={handleLastNameChange}
                         onBlur={handleLastNameBlur}
                         onFocus={handleLastNameFocus}
-                        placeholder={lastNameFocused || lastName ? '' : 'Enter your last name'}
+                        placeholder=''
                         placeholderTextColor={Colors.text.tertiary}
                         autoCapitalize="words"
                         autoCorrect={false}
@@ -842,42 +788,6 @@ export default function NameScreen() {
         </Animated.View>
       </View>
 
-      {/* Progress Toast */}
-      {showProgressToast && (
-        <Animated.View
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: Spacing.xl,
-            right: Spacing.xl,
-            backgroundColor: Colors.surface.primary,
-            borderRadius: BorderRadius.xl,
-            paddingVertical: Spacing.lg,
-            paddingHorizontal: Spacing.xl,
-            alignItems: 'center',
-            justifyContent: 'center',
-            ...Shadows.xl,
-            opacity: toastAnim,
-            transform: [{
-              scale: toastAnim.interpolate({
-                inputRange: [0, 1],
-                outputRange: [0.9, 1],
-              }),
-            }],
-          }}
-        >
-          <Text style={{
-            fontSize: 18,
-            lineHeight: 24,
-            fontFamily: Typography.fonts.bodyMedium,
-            color: Colors.text.primary,
-            textAlign: 'center',
-            fontWeight: '600',
-          }}>
-            Nice to meet you, {normalizeName(firstName)} 👋
-          </Text>
-        </Animated.View>
-      )}
 
       {/* iOS Input Accessory View */}
       {Platform.OS === 'ios' && (
