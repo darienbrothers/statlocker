@@ -1663,6 +1663,26 @@ export default function DashboardScreen() {
     // TODO: Navigate to profile editing
   };
 
+  // Get position-specific stats for hero card
+  const getHeroStats = () => {
+    const position = userProfile?.position?.toLowerCase();
+    
+    // For goalies, show only Games and W-L since detailed stats are in Performance section
+    if (position === 'goalie' || position === 'goalkeeper') {
+      return [
+        { icon: 'trophy-outline', value: '0', label: 'Games', onPress: () => router.push('/(tabs)/stats') },
+        { icon: 'ribbon-outline', value: '0-0', label: 'W-L', onPress: () => router.push('/(tabs)/stats') },
+      ];
+    }
+    
+    // For field players, could show Games, W-L, Goals, Assists
+    // But for now, keeping it simple with just Games and W-L for all positions
+    return [
+      { icon: 'trophy-outline', value: '0', label: 'Games', onPress: () => router.push('/(tabs)/stats') },
+      { icon: 'ribbon-outline', value: '0-0', label: 'W-L', onPress: () => router.push('/(tabs)/stats') },
+    ];
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.surface.primary }} edges={['top']}>
       <ScrollView 
@@ -1697,12 +1717,7 @@ export default function DashboardScreen() {
               : undefined,
             jerseyNumber: userProfile?.clubJerseyNumber,
           }}
-          stats={[
-            { icon: 'trophy-outline', value: '0', label: 'Games', onPress: () => router.push('/(tabs)/stats') },
-            { icon: 'ribbon-outline', value: '0-0', label: 'W-L', onPress: () => router.push('/(tabs)/stats') },
-            { icon: 'target-outline', value: '0', label: 'Goals', onPress: () => router.push('/(tabs)/stats') },
-            { icon: 'people-outline', value: '0', label: 'Assists', onPress: () => router.push('/(tabs)/stats') },
-          ]}
+          stats={getHeroStats()}
           onTeamToggle={userProfile?.clubEnabled ? setSelectedTeamType : undefined}
           onProfileEdit={handleProfileEdit}
         />

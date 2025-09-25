@@ -281,8 +281,8 @@ export const HeroCard: React.FC<HeroCardProps> = ({
       {/* Stats Cards */}
       <View style={{
         flexDirection: 'row',
-        gap: Spacing.sm,
-        justifyContent: 'space-between',
+        gap: Spacing.md,
+        justifyContent: 'center',
       }}>
         {stats.map((stat, index) => (
           <Pressable
@@ -290,12 +290,13 @@ export const HeroCard: React.FC<HeroCardProps> = ({
             onPress={() => stat.onPress && handlePress(stat.onPress)}
             style={{
               flex: 1,
+              maxWidth: 120,
               backgroundColor: Colors.surface.elevated,
               borderRadius: BorderRadius.lg,
-              padding: Spacing.md,
+              padding: Spacing.lg,
               alignItems: 'center',
               ...Shadows.sm,
-              minHeight: 80,
+              minHeight: 90,
             }}
           >
             <Ionicons name={stat.icon as any} size={24} color={Colors.brand.primary} />
