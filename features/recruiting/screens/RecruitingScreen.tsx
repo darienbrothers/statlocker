@@ -413,12 +413,12 @@ const TaskChecklist = ({ tasks, onToggleTask }: { tasks: Task[]; onToggleTask: (
       }}
     >
       <Text style={{
-        ...Typography.styles.h2,
+        fontSize: 28,
+        fontFamily: Typography.fonts.display,
         color: Colors.text.primary,
         marginBottom: Spacing.lg,
         fontWeight: '600',
-        fontSize: 20,
-        lineHeight: 26,
+        lineHeight: 34,
       }}>
         Recruiting Tasks
       </Text>

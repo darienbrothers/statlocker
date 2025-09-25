@@ -152,12 +152,12 @@ const PerformanceChart = ({ selectedRange }: { selectedRange: string }) => {
       }}
     >
       <Text style={{
-        ...Typography.styles.h2,
+        fontSize: 28,
+        fontFamily: Typography.fonts.display,
         color: Colors.text.primary,
         marginBottom: Spacing.sm,
         fontWeight: '600',
-        fontSize: 24,
-        lineHeight: 32,
+        lineHeight: 34,
       }}>
         Save Percentage Trend
       </Text>
@@ -303,12 +303,12 @@ const StatsOverview = ({ selectedRange }: { selectedRange: string }) => {
       }}
     >
       <Text style={{
-        ...Typography.styles.h2,
+        fontSize: 28,
+        fontFamily: Typography.fonts.display,
         color: Colors.text.primary,
         marginBottom: Spacing.lg,
         fontWeight: '600',
-        fontSize: 24,
-        lineHeight: 32,
+        lineHeight: 34,
       }}>
         Performance Overview
       </Text>
@@ -446,12 +446,12 @@ const PerGameBreakdown = ({ selectedRange }: { selectedRange: string }) => {
       }}
     >
       <Text style={{
-        ...Typography.styles.h2,
+        fontSize: 28,
+        fontFamily: Typography.fonts.display,
         color: Colors.text.primary,
         marginBottom: Spacing.lg,
         fontWeight: '600',
-        fontSize: 24,
-        lineHeight: 32,
+        lineHeight: 34,
       }}>
         Game by Game
       </Text>
@@ -648,12 +648,12 @@ const SimpleInsights = ({ selectedRange }: { selectedRange: string }) => {
       }}
     >
       <Text style={{
-        ...Typography.styles.h2,
+        fontSize: 28,
+        fontFamily: Typography.fonts.display,
         color: Colors.text.primary,
         marginBottom: Spacing.lg,
         fontWeight: '600',
-        fontSize: 24,
-        lineHeight: 32,
+        lineHeight: 34,
       }}>
         Insights
       </Text>

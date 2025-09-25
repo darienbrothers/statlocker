@@ -52,11 +52,12 @@ const HeroSection = ({
       }}>
         <View style={{ flex: 1 }}>
           <Text style={{
-            ...Typography.styles.h1,
+            fontSize: 32,
+            fontFamily: Typography.fonts.display,
             color: Colors.text.primary,
             fontWeight: '700',
             marginBottom: Spacing.xs,
-            lineHeight: 32,
+            lineHeight: 38,
           }}>
             {userProfile ? `${userProfile.firstName} ${userProfile.lastName}` : 'Loading...'}
           </Text>
@@ -328,12 +329,12 @@ const PerformanceStats = ({ teamType }: { teamType: 'highschool' | 'club' }) => 
       }}
     >
       <Text style={{
-        ...Typography.styles.h2,
+        fontSize: 28,
+        fontFamily: Typography.fonts.display,
         color: Colors.text.primary,
         marginBottom: Spacing.lg,
         fontWeight: '600',
-        fontSize: 24,
-        lineHeight: 32,
+        lineHeight: 34,
       }}>
         Performance Stats
       </Text>
@@ -441,12 +442,12 @@ const PerGameAverages = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
       }}
     >
       <Text style={{
-        ...Typography.styles.h2,
+        fontSize: 28,
+        fontFamily: Typography.fonts.display,
         color: Colors.text.primary,
         marginBottom: Spacing.xs,
         fontWeight: '600',
-        fontSize: 24,
-        lineHeight: 32,
+        lineHeight: 34,
       }}>
         Per Game Averages
       </Text>
@@ -568,12 +569,12 @@ const SeasonGoals = ({ teamType, userProfile }: { teamType: 'highschool' | 'club
       }}
     >
       <Text style={{
-        ...Typography.styles.h2,
+        fontSize: 28,
+        fontFamily: Typography.fonts.display,
         color: Colors.text.primary,
         marginBottom: Spacing.xl,
         fontWeight: '600',
-        fontSize: 24,
-        lineHeight: 32,
+        lineHeight: 34,
       }}>
         Season Goals
       </Text>

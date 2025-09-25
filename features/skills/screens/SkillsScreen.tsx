@@ -126,10 +126,11 @@ const FilterChips = ({
       ...Shadows.card,
     }}>
       <Text style={{
-        ...Typography.styles.h3,
+        fontSize: 28,
+        fontFamily: Typography.fonts.display,
         color: Colors.text.primary,
         fontWeight: '600',
-        fontSize: 18,
+        lineHeight: 34,
         marginBottom: Spacing.md,
       }}>
         Filters
@@ -368,10 +369,11 @@ const WeeklyTargets = ({
       ...Shadows.card,
     }}>
       <Text style={{
-        ...Typography.styles.h3,
+        fontSize: 28,
+        fontFamily: Typography.fonts.display,
         color: Colors.text.primary,
         fontWeight: '600',
-        fontSize: 18,
+        lineHeight: 34,
         marginBottom: Spacing.md,
       }}>
         Weekly Targets
