@@ -196,20 +196,25 @@ export const HeroCard: React.FC<HeroCardProps> = ({
           {onTeamToggle && (
             <View style={{
               flexDirection: 'row',
-              gap: Spacing.md,
+              backgroundColor: Colors.surface.elevated2,
+              borderRadius: BorderRadius.xl,
+              padding: 4,
+              ...Shadows.xs,
             }}>
               <Pressable
                 onPress={() => handleTeamToggle('highschool')}
                 style={{
-                  paddingHorizontal: Spacing.md,
-                  paddingVertical: Spacing.sm,
+                  paddingHorizontal: Spacing.lg,
+                  paddingVertical: Spacing.md,
+                  borderRadius: BorderRadius.lg,
+                  backgroundColor: teamType === 'highschool' ? Colors.brand.primary : 'transparent',
                 }}
               >
                 <Text style={{
                   fontSize: 14,
                   fontFamily: Typography.fonts.bodyMedium,
-                  color: teamType === 'highschool' ? Colors.brand.primary : Colors.text.secondary,
-                  fontWeight: teamType === 'highschool' ? '600' : '500',
+                  color: teamType === 'highschool' ? '#FFFFFF' : Colors.text.secondary,
+                  fontWeight: '600',
                 }}>
                   High School
                 </Text>
@@ -217,15 +222,17 @@ export const HeroCard: React.FC<HeroCardProps> = ({
               <Pressable
                 onPress={() => handleTeamToggle('club')}
                 style={{
-                  paddingHorizontal: Spacing.md,
-                  paddingVertical: Spacing.sm,
+                  paddingHorizontal: Spacing.lg,
+                  paddingVertical: Spacing.md,
+                  borderRadius: BorderRadius.lg,
+                  backgroundColor: teamType === 'club' ? Colors.brand.primary : 'transparent',
                 }}
               >
                 <Text style={{
                   fontSize: 14,
                   fontFamily: Typography.fonts.bodyMedium,
-                  color: teamType === 'club' ? Colors.brand.primary : Colors.text.secondary,
-                  fontWeight: teamType === 'club' ? '600' : '500',
+                  color: teamType === 'club' ? '#FFFFFF' : Colors.text.secondary,
+                  fontWeight: '600',
                 }}>
                   Club
                 </Text>
