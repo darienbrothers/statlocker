@@ -211,7 +211,7 @@ export default function TeamScreen() {
               textAlign: 'center',
               marginBottom: 6
             }}>
-              {firstName ? `Rep your home turf, ${firstName} 🏟️`  : 'Rep your home turf 🏟️'}
+              {firstName ? `Rep your home turf, ${firstName}`  : 'Rep your home turf'}
             </Text>
 
             <Text style={{
