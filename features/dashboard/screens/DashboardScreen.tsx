@@ -1,9 +1,10 @@
-import React from 'react';
-import { View, Text, ScrollView, Pressable } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, ScrollView, Pressable, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MotiView } from 'moti';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Haptics from 'expo-haptics';
 
 import { Colors, Typography, Spacing, BorderRadius, Shadows } from '../../../shared/theme';
@@ -11,10 +12,12 @@ import { Colors, Typography, Spacing, BorderRadius, Shadows } from '../../../sha
 // Hero Section Component
 const HeroSection = ({ 
   onTeamTypeChange, 
-  selectedTeamType 
+  selectedTeamType,
+  userProfile
 }: { 
   onTeamTypeChange: (type: 'highschool' | 'club') => void;
   selectedTeamType: 'highschool' | 'club';
+  userProfile: any;
 }) => {
   const handleLogGamePress = async () => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -55,7 +58,7 @@ const HeroSection = ({
             marginBottom: Spacing.xs,
             lineHeight: 32,
           }}>
-            Darien Brothers
+            {userProfile ? `${userProfile.firstName} ${userProfile.lastName}` : 'Loading...'}
           </Text>
         </View>
         
@@ -70,7 +73,7 @@ const HeroSection = ({
             color: '#FFFFFF',
             fontWeight: '600',
           }}>
-            lacrosse
+            {userProfile?.gender && userProfile?.sport ? `${userProfile.gender} ${userProfile.sport}` : 'Lacrosse'}
           </Text>
         </View>
       </View>
@@ -82,7 +85,7 @@ const HeroSection = ({
         marginBottom: Spacing.lg,
         lineHeight: 20,
       }}>
-        Class of 2027 • Goalie
+        {userProfile?.graduationYear ? `Class of ${userProfile.graduationYear}` : 'Class of 2027'} • {userProfile?.position || 'Position'}
       </Text>
 
       {/* Profile Image and Stats Row */}
@@ -102,11 +105,20 @@ const HeroSection = ({
           alignItems: 'center',
           overflow: 'hidden',
         }}>
-          <Ionicons 
-            name="person" 
-            size={40} 
-            color={Colors.text.secondary} 
-          />
+          {userProfile?.profileImage ? (
+            <Image 
+              source={{ uri: userProfile.profileImage }} 
+              style={{ width: 80, height: 80, borderRadius: 40 }}
+            />
+          ) : (
+            <Text style={{
+              ...Typography.styles.h2,
+              color: Colors.text.primary,
+              fontWeight: '600',
+            }}>
+              {userProfile?.firstName?.charAt(0) || 'A'}
+            </Text>
+          )}
         </View>
 
         {/* Stats */}
@@ -137,7 +149,7 @@ const HeroSection = ({
               fontWeight: '700',
               lineHeight: 28,
             }}>
-              0.0 / 0.0
+              N/A
             </Text>
             <Text style={{
               ...Typography.styles.caption,
@@ -164,7 +176,10 @@ const HeroSection = ({
             fontWeight: '600',
             lineHeight: 24,
           }}>
-            --
+            {selectedTeamType === 'highschool' 
+              ? (userProfile?.schoolName || '--')
+              : (userProfile?.clubEnabled && userProfile?.clubOrg ? userProfile.clubOrg : '--')
+            }
           </Text>
           <Text style={{
             ...Typography.styles.caption,
@@ -172,7 +187,7 @@ const HeroSection = ({
             marginTop: 4,
             lineHeight: 16,
           }}>
-            CLUB
+            {selectedTeamType === 'highschool' ? 'HIGH SCHOOL' : 'CLUB'}
           </Text>
         </View>
         
@@ -183,7 +198,14 @@ const HeroSection = ({
             fontWeight: '600',
             lineHeight: 24,
           }}>
-            --
+            {selectedTeamType === 'highschool' 
+              ? (userProfile?.schoolCity && userProfile?.schoolState 
+                  ? `${userProfile.schoolCity}, ${userProfile.schoolState}` 
+                  : '--')
+              : (userProfile?.clubCity && userProfile?.clubState 
+                  ? `${userProfile.clubCity}, ${userProfile.clubState}` 
+                  : '--')
+            }
           </Text>
           <Text style={{
             ...Typography.styles.caption,
@@ -196,51 +218,53 @@ const HeroSection = ({
         </View>
       </View>
 
-      {/* Team Type Buttons */}
-      <View style={{
-        flexDirection: 'row',
-        gap: Spacing.md,
-      }}>
-        <Pressable
-          onPress={() => handleTeamTypeToggle('highschool')}
-          style={{
-            flex: 1,
-            backgroundColor: selectedTeamType === 'highschool' ? Colors.brand.primary : Colors.surface.elevated2,
-            paddingVertical: Spacing.md,
-            borderRadius: BorderRadius.lg,
-            alignItems: 'center',
-          }}
-        >
-          <Text style={{
-            ...Typography.styles.body,
-            color: selectedTeamType === 'highschool' ? '#FFFFFF' : Colors.text.secondary,
-            fontWeight: selectedTeamType === 'highschool' ? '600' : '500',
-            lineHeight: 20,
-          }}>
-            High School
-          </Text>
-        </Pressable>
-        
-        <Pressable
-          onPress={() => handleTeamTypeToggle('club')}
-          style={{
-            flex: 1,
-            backgroundColor: selectedTeamType === 'club' ? Colors.brand.primary : Colors.surface.elevated2,
-            paddingVertical: Spacing.md,
-            borderRadius: BorderRadius.lg,
-            alignItems: 'center',
-          }}
-        >
-          <Text style={{
-            ...Typography.styles.body,
-            color: selectedTeamType === 'club' ? '#FFFFFF' : Colors.text.secondary,
-            fontWeight: selectedTeamType === 'club' ? '600' : '500',
-            lineHeight: 20,
-          }}>
-            Club
-          </Text>
-        </Pressable>
-      </View>
+      {/* Team Type Buttons - Only show if user has club team */}
+      {userProfile?.clubEnabled && (
+        <View style={{
+          flexDirection: 'row',
+          gap: Spacing.md,
+        }}>
+          <Pressable
+            onPress={() => handleTeamTypeToggle('highschool')}
+            style={{
+              flex: 1,
+              backgroundColor: selectedTeamType === 'highschool' ? Colors.brand.primary : Colors.surface.elevated2,
+              paddingVertical: Spacing.md,
+              borderRadius: BorderRadius.lg,
+              alignItems: 'center',
+            }}
+          >
+            <Text style={{
+              ...Typography.styles.body,
+              color: selectedTeamType === 'highschool' ? '#FFFFFF' : Colors.text.secondary,
+              fontWeight: selectedTeamType === 'highschool' ? '600' : '500',
+              lineHeight: 20,
+            }}>
+              High School
+            </Text>
+          </Pressable>
+          
+          <Pressable
+            onPress={() => handleTeamTypeToggle('club')}
+            style={{
+              flex: 1,
+              backgroundColor: selectedTeamType === 'club' ? Colors.brand.primary : Colors.surface.elevated2,
+              paddingVertical: Spacing.md,
+              borderRadius: BorderRadius.lg,
+              alignItems: 'center',
+            }}
+          >
+            <Text style={{
+              ...Typography.styles.body,
+              color: selectedTeamType === 'club' ? '#FFFFFF' : Colors.text.secondary,
+              fontWeight: selectedTeamType === 'club' ? '600' : '500',
+              lineHeight: 20,
+            }}>
+              Club
+            </Text>
+          </Pressable>
+        </View>
+      )}
     </MotiView>
   );
 };
@@ -486,36 +510,49 @@ const PerGameAverages = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
 };
 
 // Season Goals Component
-const SeasonGoals = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
-  const seasonGoals = [
-    {
-      label: 'Save % Goal',
-      current: 0,
-      target: 75,
-      progress: 0, // 0% progress
-      progressText: '0% / 75%',
-      statusText: '+75% improvement needed',
-      isGood: false, // determines progress bar color
-    },
-    {
-      label: 'Total Saves Goal', 
-      current: 0,
-      target: 200,
-      progress: 0, // 0% progress
-      progressText: '0 / 200',
-      statusText: '+200 saves to goal',
-      isGood: true,
-    },
-    {
-      label: 'Goals Against Goal',
-      current: 0,
-      target: 60,
-      progress: 0, // 0% progress (good for goals against)
-      progressText: '0 / 60',
-      statusText: '60 goals under target',
-      isGood: false, // red because we want to keep this low
-    },
-  ];
+const SeasonGoals = ({ teamType, userProfile }: { teamType: 'highschool' | 'club'; userProfile: any }) => {
+  // Use user's actual goals if available, otherwise show default goals
+  const userGoals = userProfile?.selectedGoals || [];
+  
+  const seasonGoals = userGoals.length > 0 
+    ? userGoals.map((goal: any, index: number) => ({
+        label: goal.title,
+        current: 0,
+        target: goal.target,
+        progress: 0,
+        progressText: `0 / ${goal.target}`,
+        statusText: `${goal.target} ${goal.unit} to goal`,
+        isGood: index % 2 === 0, // Alternate colors for visual variety
+      }))
+    : [
+        {
+          label: 'Save % Goal',
+          current: 0,
+          target: 75,
+          progress: 0,
+          progressText: '0% / 75%',
+          statusText: '+75% improvement needed',
+          isGood: false,
+        },
+        {
+          label: 'Total Saves Goal', 
+          current: 0,
+          target: 200,
+          progress: 0,
+          progressText: '0 / 200',
+          statusText: '+200 saves to goal',
+          isGood: true,
+        },
+        {
+          label: 'Goals Against Goal',
+          current: 0,
+          target: 60,
+          progress: 0,
+          progressText: '0 / 60',
+          statusText: '60 goals under target',
+          isGood: false,
+        },
+      ];
 
   return (
     <MotiView
@@ -1592,7 +1629,31 @@ const EmptyState = ({ title, message, icon }: { title: string; message: string; 
 };
 
 export default function DashboardScreen() {
-  const [selectedTeamType, setSelectedTeamType] = React.useState<'highschool' | 'club'>('club');
+  const [selectedTeamType, setSelectedTeamType] = React.useState<'highschool' | 'club'>('highschool');
+  const [userProfile, setUserProfile] = useState<any>(null);
+
+  useEffect(() => {
+    const loadUserProfile = async () => {
+      try {
+        const profile = await AsyncStorage.getItem('userProfile');
+        if (profile) {
+          const parsedProfile = JSON.parse(profile);
+          setUserProfile(parsedProfile);
+          
+          // Set default team type based on user's club status
+          if (parsedProfile.clubEnabled) {
+            setSelectedTeamType('club');
+          } else {
+            setSelectedTeamType('highschool');
+          }
+        }
+      } catch (error) {
+        console.error('Failed to load user profile:', error);
+      }
+    };
+    
+    loadUserProfile();
+  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.surface.primary }} edges={['top']}>
@@ -1605,7 +1666,7 @@ export default function DashboardScreen() {
         showsVerticalScrollIndicator={false}
       >
         {/* Hero Section */}
-        <HeroSection onTeamTypeChange={setSelectedTeamType} selectedTeamType={selectedTeamType} />
+        <HeroSection onTeamTypeChange={setSelectedTeamType} selectedTeamType={selectedTeamType} userProfile={userProfile} />
         
         {/* Performance Stats */}
         <PerformanceStats teamType={selectedTeamType} />
@@ -1614,7 +1675,7 @@ export default function DashboardScreen() {
         <PerGameAverages teamType={selectedTeamType} />
         
         {/* Season Goals */}
-        <SeasonGoals teamType={selectedTeamType} />
+        <SeasonGoals teamType={selectedTeamType} userProfile={userProfile} />
         
         {/* AI Insights */}
         <AIInsights teamType={selectedTeamType} />

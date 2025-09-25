@@ -204,12 +204,12 @@ export default function ReviewScreen() {
       // Success haptic
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       
-      // Navigate to main app
-      router.replace('/(tabs)/');
+      // Navigate to dashboard
+      router.replace('/dashboard');
     } catch (error) {
       console.error('Failed to save user profile:', error);
       // Still navigate even if save fails
-      router.replace('/(tabs)/');
+      router.replace('/dashboard');
     }
   };
 
