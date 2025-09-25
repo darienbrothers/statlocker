@@ -7,6 +7,8 @@ import Svg, { Path, Circle, Text as SvgText, Line as SvgLine, Defs, LinearGradie
 import * as Haptics from 'expo-haptics';
 
 import { Colors, Typography, Spacing, BorderRadius, Shadows } from '../../../shared/theme';
+import { gameDataService, SeasonStats } from '../../../shared/services/GameDataService';
+import GameStatsSummary from '../components/GameStatsSummary';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -763,7 +765,27 @@ const EmptyState = () => {
 // Main Stats Screen Component
 export default function StatsScreen() {
   const [selectedRange, setSelectedRange] = React.useState('season');
-  const [hasGames] = React.useState(true); // Mock - in real app, check user's game count
+  const [hasGames, setHasGames] = React.useState(false);
+  const [seasonStats, setSeasonStats] = React.useState<SeasonStats | null>(null);
+  
+  // Load game data
+  React.useEffect(() => {
+    const loadGameData = async () => {
+      try {
+        const stats = await gameDataService.getSeasonStats();
+        setSeasonStats(stats);
+        setHasGames(stats.totalGames > 0);
+      } catch (error) {
+        console.error('Failed to load game data:', error);
+      }
+    };
+    
+    loadGameData();
+    
+    // Set up an interval to refresh stats
+    const intervalId = setInterval(loadGameData, 5000);
+    return () => clearInterval(intervalId);
+  }, []);
 
   if (!hasGames) {
     return (
@@ -798,17 +820,24 @@ export default function StatsScreen() {
           onRangeChange={setSelectedRange}
         />
         
-        {/* Performance Chart */}
-        <PerformanceChart selectedRange={selectedRange} />
+        {/* Game Stats Summary with real data */}
+        <GameStatsSummary teamType={selectedRange === 'season' ? 'highschool' : 'club'} />
         
-        {/* Stats Overview */}
-        <StatsOverview selectedRange={selectedRange} />
-        
-        {/* Per Game Breakdown */}
-        <PerGameBreakdown selectedRange={selectedRange} />
-        
-        {/* Simple Insights */}
-        <SimpleInsights selectedRange={selectedRange} />
+        {hasGames && (
+          <>
+            {/* Performance Chart */}
+            <PerformanceChart selectedRange={selectedRange} />
+            
+            {/* Stats Overview */}
+            <StatsOverview selectedRange={selectedRange} />
+            
+            {/* Per Game Breakdown */}
+            <PerGameBreakdown selectedRange={selectedRange} />
+            
+            {/* Simple Insights */}
+            <SimpleInsights selectedRange={selectedRange} />
+          </>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

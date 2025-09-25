@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Colors, Shadows, BorderRadius } from '../../shared/theme';
 import TabsWithDrawer from '../../components/navigation/TabsWithDrawer';
 import { GameLoggingModal } from '../../shared/components/GameLoggingModal';
+import { gameDataService } from '../../shared/services/GameDataService';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -79,9 +80,18 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
   };
 
   const handleSaveGame = async (gameData: any) => {
-    console.log('Saving game data:', gameData);
-    // TODO: Save to AsyncStorage and update dashboard stats
-    setGameLoggingModalVisible(false);
+    try {
+      console.log('Saving game data:', gameData);
+      await gameDataService.saveGame(gameData);
+      setGameLoggingModalVisible(false);
+      
+      // Show success feedback
+      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    } catch (error) {
+      console.error('Error saving game:', error);
+      // Show error feedback
+      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+    }
   };
 
   return (

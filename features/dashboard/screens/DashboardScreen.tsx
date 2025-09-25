@@ -9,6 +9,7 @@ import * as Haptics from 'expo-haptics';
 
 import { Colors, Typography, Spacing, BorderRadius, Shadows } from '../../../shared/theme';
 import { HeroCard } from '../../../shared/components/HeroCard';
+import { gameDataService, SeasonStats } from '../../../shared/services/GameDataService';
 
 // Hero Section Component
 const HeroSection = ({ 
@@ -1633,10 +1634,12 @@ const EmptyState = ({ title, message, icon }: { title: string; message: string; 
 export default function DashboardScreen() {
   const [selectedTeamType, setSelectedTeamType] = React.useState<'highschool' | 'club'>('highschool');
   const [userProfile, setUserProfile] = useState<any>(null);
+  const [seasonStats, setSeasonStats] = useState<SeasonStats | null>(null);
 
   useEffect(() => {
-    const loadUserProfile = async () => {
+    const loadData = async () => {
       try {
+        // Load user profile
         const profile = await AsyncStorage.getItem('userProfile');
         if (profile) {
           const parsedProfile = JSON.parse(profile);
@@ -1649,12 +1652,35 @@ export default function DashboardScreen() {
             setSelectedTeamType('highschool');
           }
         }
+
+        // Load season stats
+        const stats = await gameDataService.getSeasonStats();
+        setSeasonStats(stats);
       } catch (error) {
-        console.error('Failed to load user profile:', error);
+        console.error('Failed to load data:', error);
       }
     };
     
-    loadUserProfile();
+    loadData();
+  }, []);
+
+  // Refresh stats when component mounts and after navigation
+  React.useEffect(() => {
+    const refreshStats = async () => {
+      try {
+        const stats = await gameDataService.getSeasonStats();
+        setSeasonStats(stats);
+      } catch (error) {
+        console.error('Failed to refresh stats:', error);
+      }
+    };
+
+    // Initial load
+    refreshStats();
+
+    // Set up an interval to check for updates (simulating focus events)
+    const intervalId = setInterval(refreshStats, 5000);
+    return () => clearInterval(intervalId);
   }, []);
 
   const handleProfileEdit = async () => {
@@ -1667,20 +1693,22 @@ export default function DashboardScreen() {
   // Get position-specific stats for hero card
   const getHeroStats = () => {
     const position = userProfile?.position?.toLowerCase();
+    const stats = seasonStats || { totalGames: 0, wins: 0, losses: 0, ties: 0 };
+    const wlRecord = `${stats.wins}-${stats.losses}${stats.ties > 0 ? `-${stats.ties}` : ''}`;
     
     // For goalies, show only Games and W-L since detailed stats are in Performance section
     if (position === 'goalie' || position === 'goalkeeper') {
       return [
-        { icon: 'trophy-outline', value: '0', label: 'Games', onPress: () => router.push('/(tabs)/stats') },
-        { icon: 'ribbon-outline', value: '0-0', label: 'W-L', onPress: () => router.push('/(tabs)/stats') },
+        { icon: 'trophy-outline', value: stats.totalGames.toString(), label: 'Games', onPress: () => router.push('/(tabs)/stats') },
+        { icon: 'ribbon-outline', value: wlRecord, label: 'W-L', onPress: () => router.push('/(tabs)/stats') },
       ];
     }
     
     // For field players, could show Games, W-L, Goals, Assists
     // But for now, keeping it simple with just Games and W-L for all positions
     return [
-      { icon: 'trophy-outline', value: '0', label: 'Games', onPress: () => router.push('/(tabs)/stats') },
-      { icon: 'ribbon-outline', value: '0-0', label: 'W-L', onPress: () => router.push('/(tabs)/stats') },
+      { icon: 'trophy-outline', value: stats.totalGames.toString(), label: 'Games', onPress: () => router.push('/(tabs)/stats') },
+      { icon: 'ribbon-outline', value: wlRecord, label: 'W-L', onPress: () => router.push('/(tabs)/stats') },
     ];
   };
 

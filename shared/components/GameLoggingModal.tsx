@@ -218,9 +218,9 @@ export const GameLoggingModal: React.FC<GameLoggingModalProps> = ({
     
     if (position === 'midfield' || position === 'midfielder') {
       if (userGender === 'male') {
-        baseStats.push({ label: 'Face-off %', value: calculatedStats.faceoffPercentage.toFixed(1) + '%', color: Colors.brand.primaryTint });
+        baseStats.push({ label: 'Face-off %', value: calculatedStats.faceoffPercentage.toFixed(1) + '%', color: Colors.brand.primary });
       } else {
-        baseStats.push({ label: 'Draw Control %', value: calculatedStats.drawControlPercentage.toFixed(1) + '%', color: Colors.brand.primaryTint });
+        baseStats.push({ label: 'Draw Control %', value: calculatedStats.drawControlPercentage.toFixed(1) + '%', color: Colors.brand.primary });
       }
     }
     
