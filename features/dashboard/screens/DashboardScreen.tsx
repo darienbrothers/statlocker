@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Haptics from 'expo-haptics';
 
 import { Colors, Typography, Spacing, BorderRadius, Shadows } from '../../../shared/theme';
+import { HeroCard } from '../../../shared/components/HeroCard';
 
 // Hero Section Component
 const HeroSection = ({ 
@@ -1632,6 +1633,7 @@ const EmptyState = ({ title, message, icon }: { title: string; message: string; 
 export default function DashboardScreen() {
   const [selectedTeamType, setSelectedTeamType] = React.useState<'highschool' | 'club'>('highschool');
   const [userProfile, setUserProfile] = useState<any>(null);
+  const [heroMode, setHeroMode] = useState<'expanded' | 'collapsed'>('expanded');
 
   useEffect(() => {
     const loadUserProfile = async () => {
@@ -1647,6 +1649,10 @@ export default function DashboardScreen() {
           } else {
             setSelectedTeamType('highschool');
           }
+
+          // Determine hero mode based on user engagement
+          // For now, let's default to expanded for the amazing experience
+          setHeroMode('expanded');
         }
       } catch (error) {
         console.error('Failed to load user profile:', error);
@@ -1656,18 +1662,88 @@ export default function DashboardScreen() {
     loadUserProfile();
   }, []);
 
+  const handleLogGame = async () => {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    console.log('Navigate to log game');
+    // TODO: Navigate to game logging
+  };
+
+  const handleAddDrill = async () => {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    console.log('Navigate to add drill');
+    // TODO: Navigate to skills/drill creation
+  };
+
+  const handleProfileEdit = async () => {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    console.log('Navigate to profile edit');
+    // TODO: Navigate to profile editing
+  };
+
+  // Calculate micro stats for the hero card
+  const microStats = [
+    { label: 'Save %', value: '0%', onPress: () => router.push('/(tabs)/stats') },
+    { label: 'Shots', value: '0', onPress: () => router.push('/(tabs)/stats') },
+    { label: 'GA', value: '0', onPress: () => router.push('/(tabs)/stats') },
+  ];
+
+  // Get team info based on selected type
+  const getTeamInfo = () => {
+    if (!userProfile) return { name: '--', location: '--' };
+    
+    if (selectedTeamType === 'highschool') {
+      return {
+        name: userProfile.schoolName || '--',
+        location: userProfile.schoolCity && userProfile.schoolState 
+          ? `${userProfile.schoolCity}, ${userProfile.schoolState}` 
+          : '--'
+      };
+    } else {
+      return {
+        name: userProfile.clubOrg || '--',
+        location: userProfile.clubCity && userProfile.clubState 
+          ? `${userProfile.clubCity}, ${userProfile.clubState}` 
+          : '--'
+      };
+    }
+  };
+
+  const teamInfo = getTeamInfo();
+  const seasonGoalsTotal = userProfile?.selectedGoals?.length || 0;
+  const seasonGoalsCompleted = 0; // TODO: Calculate from actual progress
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.surface.primary }} edges={['top']}>
       <ScrollView 
         style={{ flex: 1 }}
         contentContainerStyle={{ 
           padding: Spacing.lg,
-          paddingTop: Spacing.md, // Reduced top padding
+          paddingTop: Spacing.md,
         }}
         showsVerticalScrollIndicator={false}
       >
-        {/* Hero Section */}
-        <HeroSection onTeamTypeChange={setSelectedTeamType} selectedTeamType={selectedTeamType} userProfile={userProfile} />
+        {/* Hero Card */}
+        <HeroCard
+          mode={heroMode}
+          firstName={userProfile?.firstName}
+          lastName={userProfile?.lastName}
+          avatarUrl={userProfile?.profileImage}
+          classYear={userProfile?.graduationYear}
+          position={userProfile?.position}
+          sport={userProfile?.sport}
+          gender={userProfile?.gender}
+          teamType={selectedTeamType}
+          teamName={teamInfo.name}
+          teamLocation={teamInfo.location}
+          trialDaysLeft={30} // TODO: Calculate actual trial days
+          seasonGoalsTotal={seasonGoalsTotal}
+          seasonGoalsCompleted={seasonGoalsCompleted}
+          microStats={microStats}
+          onLogGame={handleLogGame}
+          onSecondaryAction={handleAddDrill}
+          onTeamToggle={userProfile?.clubEnabled ? setSelectedTeamType : undefined}
+          onProfileEdit={handleProfileEdit}
+        />
         
         {/* Performance Stats */}
         <PerformanceStats teamType={selectedTeamType} />
