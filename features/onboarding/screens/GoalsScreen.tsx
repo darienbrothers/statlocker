@@ -218,24 +218,24 @@ export default function GoalsScreen() {
         {/* Enhanced Header */}
         <View style={{ alignItems: 'center', paddingHorizontal: Spacing.xl, paddingVertical: Spacing.xl }}>
           <Text style={{
-            fontSize: 20,
-            fontFamily: Typography.fonts.body,
-            color: Colors.brand.primary,
-            textAlign: 'center',
-            marginBottom: Spacing.xs,
-            fontWeight: '600',
-          }}>
-            Choose 3 Goals
-          </Text>
-
-          <Text style={{
             fontSize: 28,
             fontFamily: Typography.fonts.display,
             color: Colors.text.primary,
             textAlign: 'center',
+            marginBottom: Spacing.xs,
+            fontWeight: '600',
+          }}>
+            Choose 3 Goals 🎯
+          </Text>
+
+          <Text style={{
+            fontSize: 20,
+            fontFamily: Typography.fonts.bodyMedium,
+            color: Colors.brand.primary,
+            textAlign: 'center',
             marginBottom: Spacing.sm,
           }}>
-            {firstName ? `Lock in your focus, ${firstName} 🎯` : 'Lock in your focus 🎯'}
+            {firstName ? `Lock in your focus, ${firstName}` : 'Lock in your focus'}
           </Text>
 
           <Text style={{

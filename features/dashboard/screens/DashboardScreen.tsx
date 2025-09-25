@@ -578,7 +578,7 @@ const SeasonGoals = ({ teamType, userProfile }: { teamType: 'highschool' | 'club
         Season Goals
       </Text>
       
-      {seasonGoals.map((goal, index) => (
+      {seasonGoals.map((goal: any, index: number) => (
         <MotiView
           key={goal.label}
           from={{ opacity: 0, translateX: -20 }}
