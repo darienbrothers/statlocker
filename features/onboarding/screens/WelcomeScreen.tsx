@@ -133,7 +133,7 @@ export default function WelcomeScreen() {
     }}>
       {/* Background Image */}
       <Image
-        source={require('../../../assets/images/welcomeBG.png')}
+        source={require('../../../assets/images/welcomeBackground.png')}
         style={{
           position: 'absolute',
           top: 0,

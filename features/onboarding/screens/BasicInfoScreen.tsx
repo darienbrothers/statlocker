@@ -133,7 +133,14 @@ export default function BasicInfoScreen() {
         ['onboarding_position', position],
         ['onboarding_graduationYear', graduationYear?.toString() || ''],
       ]);
-      router.push('/onboarding/team');
+      // Check if editing from review
+      const editingFromReview = await AsyncStorage.getItem('editingFromReview');
+      if (editingFromReview === 'true') {
+        await AsyncStorage.removeItem('editingFromReview');
+        router.push('/onboarding/review');
+      } else {
+        router.push('/onboarding/team');
+      }
     } catch (e) {
       console.error('Failed to save basic info', e);
     }
@@ -504,7 +511,7 @@ export default function BasicInfoScreen() {
                   color: isFormValid ? '#FFFFFF' : Colors.text.tertiary,
                   fontWeight: '600',
                 }}>
-                  Next
+                  Add Team Info
                 </Text>
                 <Ionicons name="arrow-forward" size={20} color={isFormValid ? '#FFFFFF' : Colors.text.tertiary} />
               </LinearGradient>

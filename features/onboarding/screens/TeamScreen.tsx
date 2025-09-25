@@ -47,7 +47,9 @@ export default function TeamScreen() {
   const [clubJersey, setClubJersey] = useState('');
 
   // Animation Refs
-    const clubFormFadeAnim = useRef(new Animated.Value(0)).current;
+  const clubFormFadeAnim = useRef(new Animated.Value(0)).current;
+  const bounceAnim = useRef(new Animated.Value(1)).current;
+  const breathingAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     (async () => {
@@ -127,10 +129,38 @@ export default function TeamScreen() {
     }).start();
   }, [clubEnabled]);
 
+  // Breathing animation for button
+  useEffect(() => {
+    const breathingAnimation = Animated.loop(
+      Animated.sequence([
+        Animated.timing(breathingAnim, {
+          toValue: 1,
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(breathingAnim, {
+          toValue: 0,
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+      ]),
+    );
+    breathingAnimation.start();
+    return () => breathingAnimation.stop();
+  }, []);
+
   const handleContinue = async () => {
     if (!isFormValid) return;
     await saveData();
-    router.push('/onboarding/goals');
+    
+    // Check if editing from review
+    const editingFromReview = await AsyncStorage.getItem('editingFromReview');
+    if (editingFromReview === 'true') {
+      await AsyncStorage.removeItem('editingFromReview');
+      router.push('/onboarding/review');
+    } else {
+      router.push('/onboarding/goals');
+    }
   };
 
     const handleBackPress = () => {
@@ -270,19 +300,73 @@ export default function TeamScreen() {
           Your team info helps us organize your stats and achievements.
         </Text>
 
-        <Pressable onPress={handleContinue} disabled={!isFormValid} style={{ opacity: isFormValid ? 1 : 0.6 }}>
-          <LinearGradient
-            colors={isFormValid ? [Colors.brand.primary, `${Colors.brand.primary}DD`] : [Colors.border.secondary, Colors.border.primary]}
-            style={{ padding: Spacing.lg, borderRadius: BorderRadius.xl, alignItems: 'center' }}
+        <Animated.View style={{ transform: [{ scale: bounceAnim }] }}>
+          <Pressable
+            style={{
+              borderRadius: BorderRadius.xl,
+              overflow: 'hidden',
+              opacity: isFormValid ? 1 : 0.6,
+              ...(isFormValid ? Shadows.lg : {}),
+            }}
+            onPress={handleContinue}
+            disabled={!isFormValid}
           >
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: Spacing.sm }}>
-              <Text style={{ ...Typography.styles.button, color: isFormValid ? '#FFFFFF' : Colors.text.tertiary }}>
-              Next
-            </Text>
-              <Ionicons name="arrow-forward" size={20} color={isFormValid ? '#FFFFFF' : Colors.text.tertiary} />
-            </View>
-          </LinearGradient>
-        </Pressable>
+            {/* Breathing Overlay */}
+            {isFormValid && (
+              <Animated.View
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  backgroundColor: '#FFFFFF',
+                  opacity: breathingAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0, 0.1],
+                  }),
+                  borderRadius: BorderRadius.xl,
+                }}
+              />
+            )}
+
+            <LinearGradient
+              colors={
+                isFormValid
+                  ? [Colors.brand.primary, `${Colors.brand.primary}DD`]
+                  : [Colors.border.secondary, Colors.border.primary]
+              }
+              style={{
+                paddingVertical: Spacing.lg,
+                paddingHorizontal: Spacing.xl,
+                alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: 56,
+              }}
+            >
+              <View style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: Spacing.sm,
+              }}>
+                <Text style={{
+                  fontSize: 18,
+                  lineHeight: 24,
+                  fontFamily: Typography.fonts.bodyMedium,
+                  color: isFormValid ? '#FFFFFF' : Colors.text.tertiary,
+                  fontWeight: '600',
+                }}>
+                  Continue to Goals
+                </Text>
+                <Ionicons
+                  name="arrow-forward"
+                  size={20}
+                  color={isFormValid ? '#FFFFFF' : Colors.text.tertiary}
+                />
+              </View>
+            </LinearGradient>
+          </Pressable>
+        </Animated.View>
       </View>
     </SafeAreaView>
   );

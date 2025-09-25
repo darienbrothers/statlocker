@@ -37,6 +37,7 @@ export default function GoalsScreen() {
 
   const bounceAnim = useRef(new Animated.Value(1)).current;
   const scale = useRef(new Animated.Value(1)).current;
+  const breathingAnim = useRef(new Animated.Value(0)).current;
 
   // Load user data to filter goals
   useEffect(() => {
@@ -91,6 +92,26 @@ export default function GoalsScreen() {
     }
   }, [userPosition, userLevel, levelFilter]);
 
+  // Breathing animation for button
+  useEffect(() => {
+    const breathingAnimation = Animated.loop(
+      Animated.sequence([
+        Animated.timing(breathingAnim, {
+          toValue: 1,
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(breathingAnim, {
+          toValue: 0,
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+      ]),
+    );
+    breathingAnimation.start();
+    return () => breathingAnimation.stop();
+  }, []);
+
   const animateTick = () => {
     Animated.sequence([
       Animated.timing(scale, { toValue: 1.06, duration: 100, useNativeDriver: true }),
@@ -130,6 +151,11 @@ export default function GoalsScreen() {
       await AsyncStorage.setItem('onboarding_selectedGoals', JSON.stringify(selectedGoals));
       // Also save for dashboard use
       await AsyncStorage.setItem('user_selectedGoals', JSON.stringify(selectedGoals));
+      // Check if editing from review
+      const editingFromReview = await AsyncStorage.getItem('editingFromReview');
+      if (editingFromReview === 'true') {
+        await AsyncStorage.removeItem('editingFromReview');
+      }
       router.push('/onboarding/review');
     } catch (e) {
       console.error('Failed to save selected goals', e);
@@ -485,19 +511,73 @@ export default function GoalsScreen() {
           You can always adjust these goals later in your profile settings.
         </Text>
 
-        <Pressable onPress={handleContinue} disabled={!isFormValid} style={{ opacity: isFormValid ? 1 : 0.6 }}>
-          <LinearGradient
-            colors={isFormValid ? [Colors.brand.primary, `${Colors.brand.primary}DD`] : [Colors.border.secondary, Colors.border.primary]}
-            style={styles.button}
+        <Animated.View style={{ transform: [{ scale: bounceAnim }] }}>
+          <Pressable
+            style={{
+              borderRadius: BorderRadius.xl,
+              overflow: 'hidden',
+              opacity: isFormValid ? 1 : 0.6,
+              ...(isFormValid ? Shadows.lg : {}),
+            }}
+            onPress={handleContinue}
+            disabled={!isFormValid}
           >
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: Spacing.sm }}>
-              <Text style={{ ...Typography.styles.button, color: isFormValid ? '#FFFFFF' : Colors.text.tertiary }}>
-                {isFormValid ? 'Confirm 3 Goals' : `Choose ${remaining} more`}
-              </Text>
-              <Ionicons name="arrow-forward" size={20} color={isFormValid ? '#FFFFFF' : Colors.text.tertiary} />
-            </View>
-          </LinearGradient>
-        </Pressable>
+            {/* Breathing Overlay */}
+            {isFormValid && (
+              <Animated.View
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  backgroundColor: '#FFFFFF',
+                  opacity: breathingAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0, 0.1],
+                  }),
+                  borderRadius: BorderRadius.xl,
+                }}
+              />
+            )}
+
+            <LinearGradient
+              colors={
+                isFormValid
+                  ? [Colors.brand.primary, `${Colors.brand.primary}DD`]
+                  : [Colors.border.secondary, Colors.border.primary]
+              }
+              style={{
+                paddingVertical: Spacing.lg,
+                paddingHorizontal: Spacing.xl,
+                alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: 56,
+              }}
+            >
+              <View style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: Spacing.sm,
+              }}>
+                <Text style={{
+                  fontSize: 18,
+                  lineHeight: 24,
+                  fontFamily: Typography.fonts.bodyMedium,
+                  color: isFormValid ? '#FFFFFF' : Colors.text.tertiary,
+                  fontWeight: '600',
+                }}>
+                  {isFormValid ? 'Confirm 3 Goals' : `Choose ${remaining} more`}
+                </Text>
+                <Ionicons
+                  name="arrow-forward"
+                  size={20}
+                  color={isFormValid ? '#FFFFFF' : Colors.text.tertiary}
+                />
+              </View>
+            </LinearGradient>
+          </Pressable>
+        </Animated.View>
       </View>
     </SafeAreaView>
   );

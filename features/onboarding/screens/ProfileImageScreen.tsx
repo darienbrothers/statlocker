@@ -66,8 +66,15 @@ export default function ProfileImageScreen() {
     Animated.sequence([
       Animated.timing(bounceAnim, { toValue: 0.95, duration: 100, useNativeDriver: true }),
       Animated.timing(bounceAnim, { toValue: 1, duration: 100, useNativeDriver: true }),
-    ]).start(() => {
-      router.push('/onboarding/basic-info');
+    ]).start(async () => {
+      // Check if editing from review
+      const editingFromReview = await AsyncStorage.getItem('editingFromReview');
+      if (editingFromReview === 'true') {
+        await AsyncStorage.removeItem('editingFromReview');
+        router.push('/onboarding/review');
+      } else {
+        router.push('/onboarding/basic-info');
+      }
     });
   };
 
@@ -259,7 +266,7 @@ export default function ProfileImageScreen() {
                   color: isFormValid ? '#FFFFFF' : Colors.text.tertiary,
                   fontWeight: '600',
                 }}>
-                  Next
+                  Build Profile
                 </Text>
                 <Ionicons
                   name="arrow-forward"

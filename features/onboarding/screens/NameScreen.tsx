@@ -372,7 +372,7 @@ export default function NameScreen() {
         duration: 100,
         useNativeDriver: true,
       }),
-    ]).start(() => {
+    ]).start(async () => {
       // Normalize and save final names
       const finalFirstName = normalizeName(firstName);
       const finalLastName = normalizeName(lastName);
@@ -381,8 +381,14 @@ export default function NameScreen() {
       AsyncStorage.setItem('onboarding_firstName', finalFirstName);
       AsyncStorage.setItem('onboarding_lastName', finalLastName);
 
-      // Navigate to profile image screen
-      router.push('/onboarding/profile-image');
+      // Check if editing from review
+      const editingFromReview = await AsyncStorage.getItem('editingFromReview');
+      if (editingFromReview === 'true') {
+        await AsyncStorage.removeItem('editingFromReview');
+        router.push('/onboarding/review');
+      } else {
+        router.push('/onboarding/profile-image');
+      }
     });
   };
 
@@ -775,7 +781,7 @@ export default function NameScreen() {
                   color: isFormValid ? '#FFFFFF' : Colors.text.tertiary,
                   fontWeight: '600',
                 }}>
-                  Next
+                  Add Profile Photo
                 </Text>
                 <Ionicons
                   name="arrow-forward"
