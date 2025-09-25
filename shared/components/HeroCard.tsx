@@ -281,7 +281,7 @@ export const HeroCard: React.FC<HeroCardProps> = ({
       {/* Stats Cards */}
       <View style={{
         flexDirection: 'row',
-        gap: Spacing.md,
+        gap: Spacing.sm,
         justifyContent: 'space-between',
       }}>
         {stats.map((stat, index) => (
@@ -292,9 +292,10 @@ export const HeroCard: React.FC<HeroCardProps> = ({
               flex: 1,
               backgroundColor: Colors.surface.elevated,
               borderRadius: BorderRadius.lg,
-              padding: Spacing.lg,
+              padding: Spacing.md,
               alignItems: 'center',
               ...Shadows.sm,
+              minHeight: 80,
             }}
           >
             <Ionicons name={stat.icon as any} size={24} color={Colors.brand.primary} />

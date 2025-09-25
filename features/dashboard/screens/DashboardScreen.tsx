@@ -1698,11 +1698,10 @@ export default function DashboardScreen() {
             jerseyNumber: userProfile?.clubJerseyNumber,
           }}
           stats={[
-            { icon: 'trophy-outline', value: '24', label: 'Games', onPress: () => router.push('/(tabs)/stats') },
-            { icon: 'ribbon-outline', value: '18-6', label: 'W-L', onPress: () => router.push('/(tabs)/stats') },
-            { icon: 'target-outline', value: '45', label: 'Goals', onPress: () => router.push('/(tabs)/stats') },
-            { icon: 'people-outline', value: '28', label: 'Assists', onPress: () => router.push('/(tabs)/stats') },
-            { icon: 'school-outline', value: '3.8', label: 'GPA', onPress: () => router.push('/(tabs)/recruiting') },
+            { icon: 'trophy-outline', value: '0', label: 'Games', onPress: () => router.push('/(tabs)/stats') },
+            { icon: 'ribbon-outline', value: '0-0', label: 'W-L', onPress: () => router.push('/(tabs)/stats') },
+            { icon: 'target-outline', value: '0', label: 'Goals', onPress: () => router.push('/(tabs)/stats') },
+            { icon: 'people-outline', value: '0', label: 'Assists', onPress: () => router.push('/(tabs)/stats') },
           ]}
           onTeamToggle={userProfile?.clubEnabled ? setSelectedTeamType : undefined}
           onProfileEdit={handleProfileEdit}
