@@ -145,7 +145,7 @@ export default function ProfileImageScreen() {
             marginBottom: Spacing.sm,
             fontWeight: '600',
           }}>
-            Add Your Profile Picture
+            Add Your Profile Picture 📸
           </Text>
           <Text
             style={{

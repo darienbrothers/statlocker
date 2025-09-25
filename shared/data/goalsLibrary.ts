@@ -8,6 +8,10 @@ export const GOALS_LIBRARY: GoalTemplate[] = [
   { id:'atk-fr-shoot-45', position:'Attack', level:'Freshman', title:'45%+ shooting (season)', metricType:'percent', target:0.45, unit:'%', timeframe:'season', trackingKey:'shooting_pct' },
   { id:'atk-fr-tov-max2', position:'Attack', level:'Freshman', title:'≤2 turnovers per game', metricType:'max', target:2, unit:'turnovers', timeframe:'per_game', trackingKey:'turnovers' },
   { id:'atk-fr-gb-20',    position:'Attack', level:'Freshman', title:'20 ground balls (season)', metricType:'count', target:20, unit:'GBs', timeframe:'season', trackingKey:'ground_balls' },
+  { id:'atk-fr-shots-50', position:'Attack', level:'Freshman', title:'50+ shots (season)', metricType:'count', target:50, unit:'shots', timeframe:'season', trackingKey:'shots' },
+  { id:'atk-fr-sog-30',   position:'Attack', level:'Freshman', title:'30+ shots on goal', metricType:'count', target:30, unit:'SOG', timeframe:'season', trackingKey:'shots_on_goal' },
+  { id:'atk-fr-points-15', position:'Attack', level:'Freshman', title:'15+ total points', metricType:'count', target:15, unit:'points', timeframe:'season', trackingKey:'total_points' },
+  { id:'atk-fr-hat-1',    position:'Attack', level:'Freshman', title:'1+ hat trick game', metricType:'count', target:1, unit:'games', timeframe:'season', trackingKey:'hat_tricks' },
 
   // --- Attack (JV) ---
   { id:'atk-jv-goals-30', position:'Attack', level:'JV', title:'30 goals (season)', metricType:'count', target:30, unit:'goals', timeframe:'season', trackingKey:'goals' },
@@ -16,6 +20,10 @@ export const GOALS_LIBRARY: GoalTemplate[] = [
   { id:'atk-jv-shoot-50', position:'Attack', level:'JV', title:'50%+ shooting', metricType:'percent', target:0.5, unit:'%', timeframe:'season', trackingKey:'shooting_pct' },
   { id:'atk-jv-tov-1_5',  position:'Attack', level:'JV', title:'≤1.5 turnovers per game', metricType:'max', target:1.5, unit:'turnovers', timeframe:'per_game', trackingKey:'turnovers' },
   { id:'atk-jv-gb-40',    position:'Attack', level:'JV', title:'40 ground balls (season)', metricType:'count', target:40, unit:'GBs', timeframe:'season', trackingKey:'ground_balls' },
+  { id:'atk-jv-shots-80', position:'Attack', level:'JV', title:'80+ shots (season)', metricType:'count', target:80, unit:'shots', timeframe:'season', trackingKey:'shots' },
+  { id:'atk-jv-sog-50',   position:'Attack', level:'JV', title:'50+ shots on goal', metricType:'count', target:50, unit:'SOG', timeframe:'season', trackingKey:'shots_on_goal' },
+  { id:'atk-jv-points-40', position:'Attack', level:'JV', title:'40+ total points', metricType:'count', target:40, unit:'points', timeframe:'season', trackingKey:'total_points' },
+  { id:'atk-jv-hat-2',    position:'Attack', level:'JV', title:'2+ hat trick games', metricType:'count', target:2, unit:'games', timeframe:'season', trackingKey:'hat_tricks' },
 
   // --- Attack (Varsity) ---
   { id:'atk-var-goals-50', position:'Attack', level:'Varsity', title:'50+ goals (season)', metricType:'count', target:50, unit:'goals', timeframe:'season', trackingKey:'goals' },
@@ -24,6 +32,10 @@ export const GOALS_LIBRARY: GoalTemplate[] = [
   { id:'atk-var-shoot-55', position:'Attack', level:'Varsity', title:'55–60%+ shooting', metricType:'percent', target:0.55, unit:'%', timeframe:'season', trackingKey:'shooting_pct' },
   { id:'atk-var-tov-1',    position:'Attack', level:'Varsity', title:'≤1 turnover per game', metricType:'max', target:1, unit:'turnovers', timeframe:'per_game', trackingKey:'turnovers' },
   { id:'atk-var-gb-60',    position:'Attack', level:'Varsity', title:'60+ ground balls (season)', metricType:'count', target:60, unit:'GBs', timeframe:'season', trackingKey:'ground_balls' },
+  { id:'atk-var-shots-120', position:'Attack', level:'Varsity', title:'120+ shots (season)', metricType:'count', target:120, unit:'shots', timeframe:'season', trackingKey:'shots' },
+  { id:'atk-var-sog-80',   position:'Attack', level:'Varsity', title:'80+ shots on goal', metricType:'count', target:80, unit:'SOG', timeframe:'season', trackingKey:'shots_on_goal' },
+  { id:'atk-var-points-70', position:'Attack', level:'Varsity', title:'70+ total points', metricType:'count', target:70, unit:'points', timeframe:'season', trackingKey:'total_points' },
+  { id:'atk-var-hat-3',    position:'Attack', level:'Varsity', title:'3+ hat trick games', metricType:'count', target:3, unit:'games', timeframe:'season', trackingKey:'hat_tricks' },
 
   // --- Midfielder (Freshman) ---
   { id:'mid-fr-goals-10', position:'Midfielder', level:'Freshman', title:'10 goals (season)', metricType:'count', target:10, unit:'goals', timeframe:'season', trackingKey:'goals' },
@@ -32,6 +44,10 @@ export const GOALS_LIBRARY: GoalTemplate[] = [
   { id:'mid-fr-ppg-1',    position:'Midfielder', level:'Freshman', title:'1.0+ points per game', metricType:'rate', target:1, unit:'points', timeframe:'per_game', trackingKey:'points' },
   { id:'mid-fr-tov-2',    position:'Midfielder', level:'Freshman', title:'≤2 turnovers per game', metricType:'max', target:2, unit:'turnovers', timeframe:'per_game', trackingKey:'turnovers' },
   { id:'mid-fr-clear-70', position:'Midfielder', level:'Freshman', title:'70%+ clear success', metricType:'percent', target:0.7, unit:'%', timeframe:'season', trackingKey:'clears_success' },
+  { id:'mid-fr-gb-30',    position:'Midfielder', level:'Freshman', title:'30+ ground balls (season)', metricType:'count', target:30, unit:'GBs', timeframe:'season', trackingKey:'ground_balls' },
+  { id:'mid-fr-ct-8',     position:'Midfielder', level:'Freshman', title:'8+ caused turnovers', metricType:'count', target:8, unit:'CTs', timeframe:'season', trackingKey:'caused_turnovers' },
+  { id:'mid-fr-shots-25', position:'Midfielder', level:'Freshman', title:'25+ shots (season)', metricType:'count', target:25, unit:'shots', timeframe:'season', trackingKey:'shots' },
+  { id:'mid-fr-fo-3',     position:'Midfielder', level:'Freshman', title:'3+ faceoff wins', metricType:'count', target:3, unit:'wins', timeframe:'season', trackingKey:'faceoff_wins' },
 
   // --- Midfielder (JV) ---
   { id:'mid-jv-goals-20', position:'Midfielder', level:'JV', title:'20 goals (season)', metricType:'count', target:20, unit:'goals', timeframe:'season', trackingKey:'goals' },
@@ -40,6 +56,10 @@ export const GOALS_LIBRARY: GoalTemplate[] = [
   { id:'mid-jv-ppg-2',    position:'Midfielder', level:'JV', title:'2.0+ points per game', metricType:'rate', target:2, unit:'points', timeframe:'per_game', trackingKey:'points' },
   { id:'mid-jv-tov-1_5',  position:'Midfielder', level:'JV', title:'≤1.5 turnovers per game', metricType:'max', target:1.5, unit:'turnovers', timeframe:'per_game', trackingKey:'turnovers' },
   { id:'mid-jv-clear-80', position:'Midfielder', level:'JV', title:'80%+ clear success', metricType:'percent', target:0.8, unit:'%', timeframe:'season', trackingKey:'clears_success' },
+  { id:'mid-jv-gb-50',    position:'Midfielder', level:'JV', title:'50+ ground balls (season)', metricType:'count', target:50, unit:'GBs', timeframe:'season', trackingKey:'ground_balls' },
+  { id:'mid-jv-ct-15',    position:'Midfielder', level:'JV', title:'15+ caused turnovers', metricType:'count', target:15, unit:'CTs', timeframe:'season', trackingKey:'caused_turnovers' },
+  { id:'mid-jv-shots-40', position:'Midfielder', level:'JV', title:'40+ shots (season)', metricType:'count', target:40, unit:'shots', timeframe:'season', trackingKey:'shots' },
+  { id:'mid-jv-fo-8',     position:'Midfielder', level:'JV', title:'8+ faceoff wins', metricType:'count', target:8, unit:'wins', timeframe:'season', trackingKey:'faceoff_wins' },
 
   // --- Midfielder (Varsity) ---
   { id:'mid-var-goals-25', position:'Midfielder', level:'Varsity', title:'25+ goals (season)', metricType:'count', target:25, unit:'goals', timeframe:'season', trackingKey:'goals' },
@@ -48,6 +68,10 @@ export const GOALS_LIBRARY: GoalTemplate[] = [
   { id:'mid-var-ppg-3',    position:'Midfielder', level:'Varsity', title:'3.0+ points per game', metricType:'rate', target:3, unit:'points', timeframe:'per_game', trackingKey:'points' },
   { id:'mid-var-shoot-50', position:'Midfielder', level:'Varsity', title:'50%+ shooting', metricType:'percent', target:0.5, unit:'%', timeframe:'season', trackingKey:'shooting_pct' },
   { id:'mid-var-clear-85', position:'Midfielder', level:'Varsity', title:'85%+ clear success', metricType:'percent', target:0.85, unit:'%', timeframe:'season', trackingKey:'clears_success' },
+  { id:'mid-var-gb-70',    position:'Midfielder', level:'Varsity', title:'70+ ground balls (season)', metricType:'count', target:70, unit:'GBs', timeframe:'season', trackingKey:'ground_balls' },
+  { id:'mid-var-ct-20',    position:'Midfielder', level:'Varsity', title:'20+ caused turnovers', metricType:'count', target:20, unit:'CTs', timeframe:'season', trackingKey:'caused_turnovers' },
+  { id:'mid-var-shots-60', position:'Midfielder', level:'Varsity', title:'60+ shots (season)', metricType:'count', target:60, unit:'shots', timeframe:'season', trackingKey:'shots' },
+  { id:'mid-var-fo-15',    position:'Midfielder', level:'Varsity', title:'15+ faceoff wins', metricType:'count', target:15, unit:'wins', timeframe:'season', trackingKey:'faceoff_wins' },
 
   // --- Defender (Freshman) ---
   { id:'def-fr-gb-20',  position:'Defender', level:'Freshman', title:'20 ground balls (season)', metricType:'count', target:20, unit:'GBs', timeframe:'season', trackingKey:'ground_balls' },
@@ -126,6 +150,10 @@ export const GOALS_LIBRARY: GoalTemplate[] = [
   { id:'fo-fr-gbpg-2', position:'FOGO', level:'Freshman', title:'2+ GBs per game', metricType:'rate', target:2, unit:'GBs', timeframe:'per_game', trackingKey:'ground_balls' },
   { id:'fo-fr-trans-5', position:'FOGO', level:'Freshman', title:'5 transition points', metricType:'count', target:5, unit:'points', timeframe:'season', trackingKey:'transition_points' },
   { id:'fo-fr-wins-50', position:'FOGO', level:'Freshman', title:'50+ FO wins (season)', metricType:'count', target:50, unit:'wins', timeframe:'season', trackingKey:'faceoff_wins' },
+  { id:'fo-fr-clean-15', position:'FOGO', level:'Freshman', title:'15+ clean faceoff wins', metricType:'count', target:15, unit:'clean wins', timeframe:'season', trackingKey:'faceoff_clean_wins' },
+  { id:'fo-fr-wing-10', position:'FOGO', level:'Freshman', title:'10+ wing assists', metricType:'count', target:10, unit:'assists', timeframe:'season', trackingKey:'wing_assists' },
+  { id:'fo-fr-fast-20', position:'FOGO', level:'Freshman', title:'20+ fast breaks created', metricType:'count', target:20, unit:'fast breaks', timeframe:'season', trackingKey:'fast_breaks' },
+  { id:'fo-fr-poss-80', position:'FOGO', level:'Freshman', title:'80+ possessions won', metricType:'count', target:80, unit:'possessions', timeframe:'season', trackingKey:'possessions_won' },
 
   { id:'fo-jv-fo-55', position:'FOGO', level:'JV', title:'55%+ FO win rate', metricType:'percent', target:0.55, unit:'%', timeframe:'season', trackingKey:'faceoff_win_pct' },
   { id:'fo-jv-gb-60', position:'FOGO', level:'JV', title:'60 GBs (season)', metricType:'count', target:60, unit:'GBs', timeframe:'season', trackingKey:'ground_balls' },
@@ -133,6 +161,10 @@ export const GOALS_LIBRARY: GoalTemplate[] = [
   { id:'fo-jv-gbpg-3', position:'FOGO', level:'JV', title:'3+ GBs per game', metricType:'rate', target:3, unit:'GBs', timeframe:'per_game', trackingKey:'ground_balls' },
   { id:'fo-jv-trans-10', position:'FOGO', level:'JV', title:'10 transition points', metricType:'count', target:10, unit:'points', timeframe:'season', trackingKey:'transition_points' },
   { id:'fo-jv-wins-150', position:'FOGO', level:'JV', title:'150+ FO wins (season)', metricType:'count', target:150, unit:'wins', timeframe:'season', trackingKey:'faceoff_wins' },
+  { id:'fo-jv-clean-25', position:'FOGO', level:'JV', title:'25+ clean faceoff wins', metricType:'count', target:25, unit:'clean wins', timeframe:'season', trackingKey:'faceoff_clean_wins' },
+  { id:'fo-jv-wing-15', position:'FOGO', level:'JV', title:'15+ wing assists', metricType:'count', target:15, unit:'assists', timeframe:'season', trackingKey:'wing_assists' },
+  { id:'fo-jv-fast-30', position:'FOGO', level:'JV', title:'30+ fast breaks created', metricType:'count', target:30, unit:'fast breaks', timeframe:'season', trackingKey:'fast_breaks' },
+  { id:'fo-jv-poss-120', position:'FOGO', level:'JV', title:'120+ possessions won', metricType:'count', target:120, unit:'possessions', timeframe:'season', trackingKey:'possessions_won' },
 
   { id:'fo-var-fo-65', position:'FOGO', level:'Varsity', title:'65–70%+ FO win rate', metricType:'percent', target:0.65, unit:'%', timeframe:'season', trackingKey:'faceoff_win_pct' },
   { id:'fo-var-gb-100', position:'FOGO', level:'Varsity', title:'100+ GBs (season)', metricType:'count', target:100, unit:'GBs', timeframe:'season', trackingKey:'ground_balls' },
@@ -140,16 +172,9 @@ export const GOALS_LIBRARY: GoalTemplate[] = [
   { id:'fo-var-gbpg-4', position:'FOGO', level:'Varsity', title:'4+ GBs per game', metricType:'rate', target:4, unit:'GBs', timeframe:'per_game', trackingKey:'ground_balls' },
   { id:'fo-var-trans-20', position:'FOGO', level:'Varsity', title:'20 transition points', metricType:'count', target:20, unit:'points', timeframe:'season', trackingKey:'transition_points' },
   { id:'fo-var-wins-250', position:'FOGO', level:'Varsity', title:'250+ FO wins (season)', metricType:'count', target:250, unit:'wins', timeframe:'season', trackingKey:'faceoff_wins' },
+  { id:'fo-var-clean-40', position:'FOGO', level:'Varsity', title:'40+ clean faceoff wins', metricType:'count', target:40, unit:'clean wins', timeframe:'season', trackingKey:'faceoff_clean_wins' },
+  { id:'fo-var-wing-25', position:'FOGO', level:'Varsity', title:'25+ wing assists', metricType:'count', target:25, unit:'assists', timeframe:'season', trackingKey:'wing_assists' },
+  { id:'fo-var-fast-50', position:'FOGO', level:'Varsity', title:'50+ fast breaks created', metricType:'count', target:50, unit:'fast breaks', timeframe:'season', trackingKey:'fast_breaks' },
+  { id:'fo-var-poss-200', position:'FOGO', level:'Varsity', title:'200+ possessions won', metricType:'count', target:200, unit:'possessions', timeframe:'season', trackingKey:'possessions_won' },
 
-  // --- Skills (All) ---
-  { id:'sk-all-wall-1000', position:'Skills', level:'All', title:'1,000 wall-ball reps (season)', metricType:'count', target:1000, unit:'reps', timeframe:'season', trackingKey:'wallball_reps' },
-  { id:'sk-all-weak-250', position:'Skills', level:'All', title:'250 weak-hand reps', metricType:'count', target:250, unit:'reps', timeframe:'season', trackingKey:'weakhand_reps' },
-  { id:'sk-all-days-30', position:'Skills', level:'All', title:'30 skill-days logged', metricType:'count', target:30, unit:'days', timeframe:'season', trackingKey:'skill_days' },
-  { id:'sk-all-bronze', position:'Skills', level:'All', title:'Complete Bronze drill pack', metricType:'count', target:1, unit:'packs', timeframe:'season', trackingKey:'skills_pack_bronze_complete' },
-  { id:'sk-all-jv', position:'Skills', level:'All', title:'Complete JV/Intermediate pack', metricType:'count', target:1, unit:'packs', timeframe:'season', trackingKey:'skills_pack_jv_complete' },
-  { id:'sk-all-varsity', position:'Skills', level:'All', title:'Complete Varsity/Advanced pack', metricType:'count', target:1, unit:'packs', timeframe:'season', trackingKey:'skills_pack_varsity_complete' },
-  { id:'sk-gk-react-10', position:'Skills', level:'All', title:'10 goalie reaction sessions', metricType:'count', target:10, unit:'sessions', timeframe:'season', trackingKey:'goalie_reaction_sessions' },
-  { id:'sk-def-foot-12', position:'Skills', level:'All', title:'12 footwork sessions', metricType:'count', target:12, unit:'sessions', timeframe:'season', trackingKey:'footwork_sessions' },
-  { id:'sk-am-shoot-8', position:'Skills', level:'All', title:'8 shooting sessions', metricType:'count', target:8, unit:'sessions', timeframe:'season', trackingKey:'shooting_sessions' },
-  { id:'sk-fo-tech-6', position:'Skills', level:'All', title:'6 FO technique sessions', metricType:'count', target:6, unit:'sessions', timeframe:'season', trackingKey:'fogo_technique_sessions' },
 ];

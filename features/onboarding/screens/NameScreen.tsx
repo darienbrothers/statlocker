@@ -437,7 +437,7 @@ export default function NameScreen() {
                   marginBottom: Spacing.sm,
                   fontWeight: '600',
                 }}>
-                  Welcome to your locker
+                  Welcome to your locker 🔐
                 </Text>
                 
                 <Text style={{

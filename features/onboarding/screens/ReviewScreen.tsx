@@ -43,6 +43,10 @@ export default function ReviewScreen() {
 
   const [userData, setUserData] = useState<any>(null);
 
+  const handleBackPress = () => {
+    router.back();
+  };
+
   useEffect(() => {
     const loadAllData = async () => {
       try {
@@ -94,6 +98,8 @@ export default function ReviewScreen() {
         steps={onboardingSteps}
         currentIndex={currentStepIndex}
         completedSteps={['name', 'profile-image', 'basic', 'team', 'goals']}
+        showBack={true}
+        onBack={handleBackPress}
       />
       <ScrollView contentContainerStyle={{ padding: Spacing.xl }}>
         {/* Header */}
@@ -106,7 +112,7 @@ export default function ReviewScreen() {
               marginBottom: Spacing.sm,
               fontWeight: '600',
             }}>
-              Final Review
+              Final Review ✨
             </Text>
             <Text style={{
               fontSize: 28,

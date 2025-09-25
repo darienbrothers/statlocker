@@ -7,7 +7,7 @@ export type MetricType = 'count' | 'percent' | 'rate' | 'max';
 
 export interface GoalTemplate {
   id: string;
-  position: Position | 'Skills';
+  position: Position;
   level: Level | 'All';
   title: string;
   metricType: MetricType;

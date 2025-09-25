@@ -211,7 +211,7 @@ export default function BasicInfoScreen() {
               marginBottom: Spacing.sm,
               fontWeight: '600',
             }}>
-              Build Your Player Profile
+              Build Your Player Profile ⚡
             </Text>
 
             <Text

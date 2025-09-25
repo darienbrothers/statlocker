@@ -171,7 +171,7 @@ export default function TeamScreen() {
               marginBottom: Spacing.sm,
               fontWeight: '600',
             }}>
-              Team Information
+              Team Information 🏆
             </Text>
             
             <Text style={{
