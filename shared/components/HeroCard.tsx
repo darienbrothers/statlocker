@@ -273,8 +273,8 @@ export const HeroCard: React.FC<HeroCardProps> = ({
       {/* Eyebrow Chips */}
       <View style={{
         flexDirection: 'row',
-        gap: Spacing.xs,
-        marginBottom: Spacing.md,
+        gap: Spacing.sm,
+        marginBottom: Spacing.xl,
         flexWrap: 'wrap',
       }}>
         {classYear && (
@@ -340,31 +340,32 @@ export const HeroCard: React.FC<HeroCardProps> = ({
       <View style={{
         flexDirection: 'row',
         alignItems: 'flex-start',
-        gap: Spacing.lg,
-        marginBottom: Spacing.lg,
+        gap: Spacing.xl,
+        marginBottom: Spacing.xl,
       }}>
         {/* Left Lane: Avatar + Badges */}
-        <View style={{ alignItems: 'center', gap: Spacing.sm }}>
+        <View style={{ alignItems: 'center', gap: Spacing.md }}>
           {/* Avatar with Ring */}
           <View style={{
-            width: 80,
-            height: 80,
-            borderRadius: 40,
+            width: 90,
+            height: 90,
+            borderRadius: 45,
             backgroundColor: avatarUrl ? 'transparent' : Colors.surface.elevated2,
             borderWidth: avatarUrl ? 3 : 0,
             borderColor: Colors.brand.primary,
             justifyContent: 'center',
             alignItems: 'center',
             overflow: 'hidden',
+            marginBottom: Spacing.sm,
           }}>
             {avatarUrl ? (
               <Image 
                 source={{ uri: avatarUrl }} 
-                style={{ width: 74, height: 74, borderRadius: 37 }}
+                style={{ width: 84, height: 84, borderRadius: 42 }}
               />
             ) : (
               <Text style={{
-                fontSize: 28,
+                fontSize: 32,
                 fontFamily: Typography.fonts.display,
                 color: Colors.text.primary,
                 fontWeight: '600',
@@ -378,14 +379,15 @@ export const HeroCard: React.FC<HeroCardProps> = ({
           {trialDaysLeft && trialDaysLeft > 0 && (
             <View style={{
               backgroundColor: Colors.surface.elevated2,
-              paddingHorizontal: Spacing.sm,
-              paddingVertical: Spacing.xs,
-              borderRadius: BorderRadius.md,
+              paddingHorizontal: Spacing.md,
+              paddingVertical: Spacing.sm,
+              borderRadius: BorderRadius.lg,
               borderWidth: 1,
               borderColor: trialDaysLeft <= 5 ? Colors.brand.primary : Colors.border.secondary,
+              minWidth: 100,
             }}>
               <Text style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontFamily: Typography.fonts.body,
                 color: trialDaysLeft <= 5 ? Colors.brand.primary : Colors.text.secondary,
                 fontWeight: '600',
@@ -398,15 +400,15 @@ export const HeroCard: React.FC<HeroCardProps> = ({
         </View>
 
         {/* Center Lane: Name + Progress */}
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, paddingRight: Spacing.md }}>
           {/* Greeting Title */}
           <Text style={{
-            fontSize: 32,
+            fontSize: 28,
             fontFamily: Typography.fonts.display,
             color: Colors.text.primary,
             fontWeight: '700',
-            lineHeight: 38,
-            marginBottom: Spacing.xs,
+            lineHeight: 34,
+            marginBottom: Spacing.sm,
           }}>
             Welcome back, {firstName || 'Athlete'} 👋
           </Text>
@@ -416,8 +418,8 @@ export const HeroCard: React.FC<HeroCardProps> = ({
             fontSize: 16,
             fontFamily: Typography.fonts.bodyMedium,
             color: Colors.text.secondary,
-            marginBottom: Spacing.sm,
-            lineHeight: 20,
+            marginBottom: Spacing.md,
+            lineHeight: 22,
           }}>
             {classYear ? `Class of ${classYear}` : ''}{classYear && position ? ' • ' : ''}{position || ''}
           </Text>
@@ -427,36 +429,36 @@ export const HeroCard: React.FC<HeroCardProps> = ({
             fontSize: 14,
             fontFamily: Typography.fonts.body,
             color: Colors.text.secondary,
-            lineHeight: 18,
+            lineHeight: 20,
           }}>
             {seasonGoalsTotal} season goals • {seasonGoalsCompleted} completed
           </Text>
         </View>
 
         {/* Right Lane: Action Buttons */}
-        <View style={{ gap: Spacing.sm }}>
+        <View style={{ gap: Spacing.md, minWidth: 140 }}>
           {/* Log Game Button */}
           <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
             <Pressable
               onPress={() => handlePress(onLogGame)}
               style={{
-                borderRadius: BorderRadius.lg,
+                borderRadius: BorderRadius.xl,
                 overflow: 'hidden',
+                ...Shadows.sm,
               }}
             >
               <LinearGradient
                 colors={[Colors.brand.primary, `${Colors.brand.primary}DD`]}
                 style={{
                   paddingHorizontal: Spacing.lg,
-                  paddingVertical: Spacing.md,
+                  paddingVertical: Spacing.lg,
                   flexDirection: 'row',
                   alignItems: 'center',
                   gap: Spacing.sm,
-                  minWidth: 120,
                   justifyContent: 'center',
                 }}
               >
-                <Ionicons name="flash" size={18} color="#FFFFFF" />
+                <Ionicons name="flash" size={20} color="#FFFFFF" />
                 <Text style={{
                   fontSize: 16,
                   fontFamily: Typography.fonts.bodyMedium,
@@ -475,21 +477,21 @@ export const HeroCard: React.FC<HeroCardProps> = ({
               <Pressable
                 onPress={() => handlePress(onSecondaryAction)}
                 style={{
-                  borderRadius: BorderRadius.lg,
-                  borderWidth: 1,
+                  borderRadius: BorderRadius.xl,
+                  borderWidth: 2,
                   borderColor: Colors.brand.primary,
+                  backgroundColor: Colors.surface.primary,
                   paddingHorizontal: Spacing.lg,
                   paddingVertical: Spacing.md,
                   flexDirection: 'row',
                   alignItems: 'center',
                   gap: Spacing.sm,
-                  minWidth: 120,
                   justifyContent: 'center',
                 }}
               >
                 <Ionicons name="add-circle-outline" size={18} color={Colors.brand.primary} />
                 <Text style={{
-                  fontSize: 16,
+                  fontSize: 14,
                   fontFamily: Typography.fonts.bodyMedium,
                   color: Colors.brand.primary,
                   fontWeight: '600',
@@ -506,9 +508,10 @@ export const HeroCard: React.FC<HeroCardProps> = ({
       {microStats.length > 0 && (
         <View style={{
           flexDirection: 'row',
-          gap: Spacing.sm,
-          marginBottom: Spacing.md,
+          gap: Spacing.md,
+          marginBottom: Spacing.xl,
           flexWrap: 'wrap',
+          justifyContent: 'center',
         }}>
           {microStats.map((stat, index) => (
             <Pressable
@@ -516,19 +519,22 @@ export const HeroCard: React.FC<HeroCardProps> = ({
               onPress={() => stat.onPress && handlePress(stat.onPress)}
               style={{
                 backgroundColor: Colors.surface.elevated2,
-                paddingHorizontal: Spacing.md,
-                paddingVertical: Spacing.sm,
-                borderRadius: BorderRadius.lg,
+                paddingHorizontal: Spacing.lg,
+                paddingVertical: Spacing.md,
+                borderRadius: BorderRadius.xl,
                 flexDirection: 'row',
                 alignItems: 'center',
-                gap: Spacing.xs,
+                gap: Spacing.sm,
+                minWidth: 80,
+                justifyContent: 'center',
+                ...Shadows.xs,
               }}
             >
               <Text style={{
-                fontSize: 14,
+                fontSize: 16,
                 fontFamily: Typography.fonts.bodyMedium,
                 color: Colors.text.primary,
-                fontWeight: '600',
+                fontWeight: '700',
               }}>
                 {stat.value}
               </Text>
@@ -551,24 +557,26 @@ export const HeroCard: React.FC<HeroCardProps> = ({
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
-          paddingTop: Spacing.md,
+          paddingTop: Spacing.xl,
           borderTopWidth: 1,
           borderTopColor: Colors.border.secondary,
+          marginTop: Spacing.md,
         }}>
-          <View>
+          <View style={{ flex: 1 }}>
             <Text style={{
-              fontSize: 16,
+              fontSize: 18,
               fontFamily: Typography.fonts.bodyMedium,
               color: Colors.text.primary,
               fontWeight: '600',
-              marginBottom: 2,
+              marginBottom: Spacing.xs,
             }}>
               {teamName || '--'}
             </Text>
             <Text style={{
-              fontSize: 12,
+              fontSize: 14,
               fontFamily: Typography.fonts.body,
               color: Colors.text.secondary,
+              lineHeight: 18,
             }}>
               {teamLocation || '--'}
             </Text>
@@ -578,15 +586,16 @@ export const HeroCard: React.FC<HeroCardProps> = ({
           <View style={{
             flexDirection: 'row',
             backgroundColor: Colors.surface.elevated2,
-            borderRadius: BorderRadius.lg,
-            padding: 2,
+            borderRadius: BorderRadius.xl,
+            padding: 4,
+            ...Shadows.xs,
           }}>
             <Pressable
               onPress={() => handleTeamToggle('highschool')}
               style={{
-                paddingHorizontal: Spacing.md,
-                paddingVertical: Spacing.sm,
-                borderRadius: BorderRadius.md,
+                paddingHorizontal: Spacing.lg,
+                paddingVertical: Spacing.md,
+                borderRadius: BorderRadius.lg,
                 backgroundColor: teamType === 'highschool' ? Colors.brand.primary : 'transparent',
               }}
             >
@@ -602,9 +611,9 @@ export const HeroCard: React.FC<HeroCardProps> = ({
             <Pressable
               onPress={() => handleTeamToggle('club')}
               style={{
-                paddingHorizontal: Spacing.md,
-                paddingVertical: Spacing.sm,
-                borderRadius: BorderRadius.md,
+                paddingHorizontal: Spacing.lg,
+                paddingVertical: Spacing.md,
+                borderRadius: BorderRadius.lg,
                 backgroundColor: teamType === 'club' ? Colors.brand.primary : 'transparent',
               }}
             >
