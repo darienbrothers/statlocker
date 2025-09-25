@@ -9,8 +9,6 @@ import * as Haptics from 'expo-haptics';
 
 import { Colors, Typography, Spacing, BorderRadius, Shadows } from '../../../shared/theme';
 import { HeroCard } from '../../../shared/components/HeroCard';
-import { GameLoggingFAB } from '../../../shared/components/GameLoggingFAB';
-import { GameLoggingModal } from '../../../shared/components/GameLoggingModal';
 
 // Hero Section Component
 const HeroSection = ({ 
@@ -1635,7 +1633,6 @@ const EmptyState = ({ title, message, icon }: { title: string; message: string; 
 export default function DashboardScreen() {
   const [selectedTeamType, setSelectedTeamType] = React.useState<'highschool' | 'club'>('highschool');
   const [userProfile, setUserProfile] = useState<any>(null);
-  const [gameLoggingModalVisible, setGameLoggingModalVisible] = useState(false);
 
   useEffect(() => {
     const loadUserProfile = async () => {
@@ -1666,19 +1663,6 @@ export default function DashboardScreen() {
     // TODO: Navigate to profile editing
   };
 
-  const handleOpenGameLogging = () => {
-    setGameLoggingModalVisible(true);
-  };
-
-  const handleCloseGameLogging = () => {
-    setGameLoggingModalVisible(false);
-  };
-
-  const handleSaveGame = async (gameData: any) => {
-    console.log('Saving game data:', gameData);
-    // TODO: Save to Firestore and update dashboard stats
-    // This will eventually update the HeroCard stats and Performance sections
-  };
 
   // Get position-specific stats for hero card
   const getHeroStats = () => {
@@ -1757,18 +1741,6 @@ export default function DashboardScreen() {
         {/* Recent Games */}
         <RecentGames teamType={selectedTeamType} />
       </ScrollView>
-
-      {/* Game Logging FAB */}
-      <GameLoggingFAB onPress={handleOpenGameLogging} />
-
-      {/* Game Logging Modal */}
-      <GameLoggingModal
-        visible={gameLoggingModalVisible}
-        onClose={handleCloseGameLogging}
-        userPosition={userProfile?.position}
-        userGender={userProfile?.gender}
-        onSave={handleSaveGame}
-      />
     </SafeAreaView>
   );
 }

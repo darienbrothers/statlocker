@@ -1,20 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { View, Pressable, Dimensions, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Colors, Shadows, BorderRadius } from '../../shared/theme';
 import TabsWithDrawer from '../../components/navigation/TabsWithDrawer';
+import { GameLoggingModal } from '../../shared/components/GameLoggingModal';
 
 const { width: screenWidth } = Dimensions.get('window');
 
 // Custom FAB Component
-const FloatingActionButton = () => {
+const FloatingActionButton = ({ onPress }: { onPress: () => void }) => {
   const handlePress = async () => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-    // TODO: Navigate to game logging modal
-    console.log('Log Game pressed');
+    onPress();
   };
 
   return (
@@ -51,21 +52,54 @@ const FloatingActionButton = () => {
 
 // Custom Tab Bar
 const CustomTabBar = ({ state, descriptors, navigation }: any) => {
+  const [gameLoggingModalVisible, setGameLoggingModalVisible] = useState(false);
+  const [userProfile, setUserProfile] = useState<any>(null);
+
+  // Load user profile for modal
+  React.useEffect(() => {
+    const loadUserProfile = async () => {
+      try {
+        const profile = await AsyncStorage.getItem('userProfile');
+        if (profile) {
+          setUserProfile(JSON.parse(profile));
+        }
+      } catch (error) {
+        console.error('Failed to load user profile:', error);
+      }
+    };
+    loadUserProfile();
+  }, []);
+
+  const handleOpenGameLogging = () => {
+    setGameLoggingModalVisible(true);
+  };
+
+  const handleCloseGameLogging = () => {
+    setGameLoggingModalVisible(false);
+  };
+
+  const handleSaveGame = async (gameData: any) => {
+    console.log('Saving game data:', gameData);
+    // TODO: Save to AsyncStorage and update dashboard stats
+    setGameLoggingModalVisible(false);
+  };
+
   return (
-    <View style={{
-      position: 'relative',
-      backgroundColor: Colors.surface.elevated,
-      borderTopWidth: 1,
-      borderTopColor: Colors.border.primary,
-      paddingBottom: 28, // Reduced safe area
-      paddingTop: 8, // Reduced top padding
-      height: 76, // Reduced height
-      flexDirection: 'row',
-      alignItems: 'center',
-      ...Shadows.card,
-    }}>
-      {/* FAB */}
-      <FloatingActionButton />
+    <>
+      <View style={{
+        position: 'relative',
+        backgroundColor: Colors.surface.elevated,
+        borderTopWidth: 1,
+        borderTopColor: Colors.border.primary,
+        paddingBottom: 28, // Reduced safe area
+        paddingTop: 8, // Reduced top padding
+        height: 76, // Reduced height
+        flexDirection: 'row',
+        alignItems: 'center',
+        ...Shadows.card,
+      }}>
+        {/* FAB */}
+        <FloatingActionButton onPress={handleOpenGameLogging} />
       
       {state.routes.map((route: any, index: number) => {
         const { options } = descriptors[route.key];
@@ -156,6 +190,16 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
         );
       })}
     </View>
+
+    {/* Game Logging Modal */}
+    <GameLoggingModal
+      visible={gameLoggingModalVisible}
+      onClose={handleCloseGameLogging}
+      userPosition={userProfile?.position}
+      userGender={userProfile?.gender}
+      onSave={handleSaveGame}
+    />
+  </>
   );
 };
 

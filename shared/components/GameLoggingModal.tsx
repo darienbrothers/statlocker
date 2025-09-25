@@ -48,6 +48,7 @@ interface GameDetails {
   date: string;
   isHome: boolean;
   seasonType: 'school' | 'club';
+  result: 'win' | 'loss' | 'tie' | '';
 }
 
 interface GameLoggingModalProps {
@@ -70,6 +71,7 @@ export const GameLoggingModal: React.FC<GameLoggingModalProps> = ({
     date: new Date().toISOString().split('T')[0],
     isHome: true,
     seasonType: 'school',
+    result: '',
   });
 
   const [stats, setStats] = useState<GameStats>({
@@ -467,6 +469,83 @@ export const GameLoggingModal: React.FC<GameLoggingModalProps> = ({
                   </Pressable>
                 </View>
               </View>
+
+              {/* Game Result */}
+              <View style={{ marginBottom: Spacing.lg }}>
+                <Text style={{
+                  fontSize: 14,
+                  fontFamily: Typography.fonts.bodyMedium,
+                  color: Colors.text.secondary,
+                  marginBottom: Spacing.sm,
+                }}>
+                  Game Result
+                </Text>
+                <View style={{
+                  flexDirection: 'row',
+                  backgroundColor: Colors.surface.primary,
+                  borderRadius: BorderRadius.lg,
+                  padding: 4,
+                  gap: 4,
+                }}>
+                  <Pressable
+                    onPress={() => setGameDetails(prev => ({ ...prev, result: 'win' }))}
+                    style={{
+                      flex: 1,
+                      paddingVertical: Spacing.md,
+                      borderRadius: BorderRadius.md,
+                      backgroundColor: gameDetails.result === 'win' ? Colors.brand.secondary : 'transparent',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Text style={{
+                      fontSize: 14,
+                      fontFamily: Typography.fonts.bodyMedium,
+                      color: gameDetails.result === 'win' ? '#FFFFFF' : Colors.text.secondary,
+                      fontWeight: '600',
+                    }}>
+                      Win
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    onPress={() => setGameDetails(prev => ({ ...prev, result: 'loss' }))}
+                    style={{
+                      flex: 1,
+                      paddingVertical: Spacing.md,
+                      borderRadius: BorderRadius.md,
+                      backgroundColor: gameDetails.result === 'loss' ? '#EF4444' : 'transparent',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Text style={{
+                      fontSize: 14,
+                      fontFamily: Typography.fonts.bodyMedium,
+                      color: gameDetails.result === 'loss' ? '#FFFFFF' : Colors.text.secondary,
+                      fontWeight: '600',
+                    }}>
+                      Loss
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    onPress={() => setGameDetails(prev => ({ ...prev, result: 'tie' }))}
+                    style={{
+                      flex: 1,
+                      paddingVertical: Spacing.md,
+                      borderRadius: BorderRadius.md,
+                      backgroundColor: gameDetails.result === 'tie' ? Colors.brand.accent : 'transparent',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Text style={{
+                      fontSize: 14,
+                      fontFamily: Typography.fonts.bodyMedium,
+                      color: gameDetails.result === 'tie' ? '#FFFFFF' : Colors.text.secondary,
+                      fontWeight: '600',
+                    }}>
+                      Tie
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
             </MotiView>
 
             {/* Stats Section */}
@@ -542,25 +621,69 @@ export const GameLoggingModal: React.FC<GameLoggingModalProps> = ({
                     }}>
                       {field.label} {field.required && '*'}
                     </Text>
-                    <TextInput
-                      value={stats[field.key as keyof GameStats]}
-                      onChangeText={(text) => updateStat(field.key as keyof GameStats, text)}
-                      placeholder="0"
-                      placeholderTextColor={Colors.text.secondary}
-                      keyboardType="numeric"
-                      style={{
-                        backgroundColor: Colors.surface.primary,
-                        borderRadius: BorderRadius.lg,
-                        padding: Spacing.md,
-                        fontSize: 16,
-                        fontFamily: Typography.fonts.bodyMedium,
-                        color: Colors.text.primary,
-                        borderWidth: 1,
-                        borderColor: Colors.border.secondary,
-                        textAlign: 'center',
-                        fontWeight: '600',
-                      }}
-                    />
+                    <View style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      backgroundColor: Colors.surface.primary,
+                      borderRadius: BorderRadius.lg,
+                      borderWidth: 1,
+                      borderColor: Colors.border.secondary,
+                      overflow: 'hidden',
+                    }}>
+                      {/* Decrement Button */}
+                      <Pressable
+                        onPress={() => {
+                          const currentValue = parseInt(stats[field.key as keyof GameStats]) || 0;
+                          if (currentValue > 0) {
+                            updateStat(field.key as keyof GameStats, (currentValue - 1).toString());
+                          }
+                        }}
+                        style={{
+                          width: 36,
+                          height: 44,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          backgroundColor: Colors.surface.elevated2,
+                        }}
+                      >
+                        <Ionicons name="remove" size={16} color={Colors.text.secondary} />
+                      </Pressable>
+
+                      {/* Value Input */}
+                      <TextInput
+                        value={stats[field.key as keyof GameStats]}
+                        onChangeText={(text) => updateStat(field.key as keyof GameStats, text)}
+                        placeholder="0"
+                        placeholderTextColor={Colors.text.secondary}
+                        keyboardType="numeric"
+                        style={{
+                          flex: 1,
+                          padding: Spacing.md,
+                          fontSize: 16,
+                          fontFamily: Typography.fonts.bodyMedium,
+                          color: Colors.text.primary,
+                          textAlign: 'center',
+                          fontWeight: '600',
+                        }}
+                      />
+
+                      {/* Increment Button */}
+                      <Pressable
+                        onPress={() => {
+                          const currentValue = parseInt(stats[field.key as keyof GameStats]) || 0;
+                          updateStat(field.key as keyof GameStats, (currentValue + 1).toString());
+                        }}
+                        style={{
+                          width: 36,
+                          height: 44,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          backgroundColor: Colors.brand.primary,
+                        }}
+                      >
+                        <Ionicons name="add" size={16} color="#FFFFFF" />
+                      </Pressable>
+                    </View>
                   </MotiView>
                 ))}
               </View>
