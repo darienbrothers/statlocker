@@ -648,8 +648,19 @@ export const GameLoggingModal: React.FC<GameLoggingModalProps> = ({
                     </Text>
                   </Pressable>
                 </View>
+                </MotiView>
+                {errors.result && (
+                  <Text style={{
+                    fontSize: 12,
+                    fontFamily: Typography.fonts.body,
+                    color: Colors.status.error,
+                    marginTop: 4,
+                    marginLeft: 4,
+                  }}>
+                    {errors.result}
+                  </Text>
+                )}
               </View>
-            </MotiView>
 
             {/* Stats Section */}
             <MotiView

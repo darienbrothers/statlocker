@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { MotiView } from 'moti';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Haptics from 'expo-haptics';
 
 import { Colors, Typography, Spacing, BorderRadius, Shadows } from '../../../shared/theme';
@@ -1037,6 +1038,9 @@ const AIInsights = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
 const RecentGames = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
   const [recentGames, setRecentGames] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedGame, setSelectedGame] = useState<SavedGame | null>(null);
+  const [gameDetailsVisible, setGameDetailsVisible] = useState(false);
+  const [gameEditVisible, setGameEditVisible] = useState(false);
 
   // Load recent games from GameDataService
   useEffect(() => {
@@ -1145,27 +1149,9 @@ const RecentGames = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
   };
   
   const handleEditGame = (game: SavedGame) => {
-    setSelectedGame(game);
-    setGameDetailsVisible(false);
-    setGameEditVisible(true);
-  };
-  
-  const handleSaveEditedGame = async (updatedGame: SavedGame) => {
-    try {
-      await gameDataService.updateGame(updatedGame);
-      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Success);
-      
-      // Refresh stats after update
-      const stats = await gameDataService.getSeasonStats();
-      setSeasonStats(stats);
-    } catch (error) {
-      console.error('Failed to update game:', error);
-      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-    }
-  };
-  
-  const handleCloseEditModal = () => {
-    setGameEditVisible(false);
+    console.log('Edit game:', game.id);
+    // In the RecentGames component, we would typically navigate to an edit screen
+    // or show an edit modal, but for now we'll just log it
   };
 
   // Show empty state if no games
@@ -1709,6 +1695,35 @@ export default function DashboardScreen() {
   const [selectedGame, setSelectedGame] = useState<SavedGame | null>(null);
   const [gameDetailsVisible, setGameDetailsVisible] = useState(false);
   const [gameEditVisible, setGameEditVisible] = useState(false);
+  
+  // Handler functions for game details and editing
+  const handleCloseGameDetails = () => {
+    setGameDetailsVisible(false);
+  };
+  
+  const handleEditGame = (game: SavedGame) => {
+    setSelectedGame(game);
+    setGameDetailsVisible(false);
+    setGameEditVisible(true);
+  };
+  
+  const handleSaveEditedGame = async (updatedGame: SavedGame) => {
+    try {
+      await gameDataService.updateGame(updatedGame);
+      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      
+      // Refresh stats after update
+      const stats = await gameDataService.getSeasonStats();
+      setSeasonStats(stats);
+    } catch (error) {
+      console.error('Failed to update game:', error);
+      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+    }
+  };
+  
+  const handleCloseEditModal = () => {
+    setGameEditVisible(false);
+  };
 
   useEffect(() => {
     const loadData = async () => {
