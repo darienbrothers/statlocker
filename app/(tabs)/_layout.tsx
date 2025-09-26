@@ -9,6 +9,7 @@ import { Colors, Shadows, BorderRadius } from '../../shared/theme';
 import TabsWithDrawer from '../../components/navigation/TabsWithDrawer';
 import { GameLoggingModal } from '../../shared/components/GameLoggingModal';
 import { gameDataService } from '../../shared/services/GameDataService';
+import AuthGuard from '../../shared/components/AuthGuard';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -215,7 +216,8 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
 
 export default function TabsLayout() {
   return (
-    <TabsWithDrawer>
+    <AuthGuard>
+      <TabsWithDrawer>
       <Tabs
         tabBar={(props) => <CustomTabBar {...props} />}
         screenOptions={{
@@ -247,6 +249,7 @@ export default function TabsLayout() {
           }}
         />
       </Tabs>
-    </TabsWithDrawer>
+      </TabsWithDrawer>
+    </AuthGuard>
   );
 }
