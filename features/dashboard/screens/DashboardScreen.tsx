@@ -273,35 +273,54 @@ const HeroSection = ({
 };
 
 // Performance Stats Component (wrapped in card)
-const PerformanceStats = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
+const PerformanceStats = ({ teamType, seasonStats }: { teamType: 'highschool' | 'club', seasonStats: SeasonStats | null }) => {
+  // Use real data from seasonStats or default to zeros if not available
+  const stats = seasonStats || {
+    totalGames: 0,
+    wins: 0,
+    losses: 0,
+    ties: 0,
+    totalGoals: 0,
+    totalAssists: 0,
+    totalShots: 0,
+    totalShotsOnGoal: 0,
+    totalSaves: 0,
+    totalShotsFaced: 0,
+    totalGoalsAgainst: 0,
+    avgGoalsPerGame: 0,
+    avgAssistsPerGame: 0,
+    overallShootingPercentage: 0,
+    overallSavePercentage: 0
+  };
+  
   const statCards = [
     { 
       label: 'Save Percentage', 
-      value: '0', 
+      value: stats.overallSavePercentage.toFixed(1), 
       suffix: '%', 
-      trend: 0, // 0 = no change, positive = up, negative = down
-      trendValue: '0%'
+      trend: stats.overallSavePercentage > 0 ? 1 : 0, 
+      trendValue: stats.totalGames > 1 ? '+' + (stats.overallSavePercentage / stats.totalGames).toFixed(1) + '%' : '0%'
     },
     { 
       label: 'Total Saves', 
-      value: '0', 
+      value: stats.totalSaves.toString(), 
       suffix: '', 
-      trend: 0,
-      trendValue: '0%'
+      trend: stats.totalSaves > 0 ? 1 : 0,
+      trendValue: stats.totalGames > 0 ? '+' + (stats.totalSaves / stats.totalGames).toFixed(0) : '0'
     },
     { 
       label: 'Shots Faced', 
-      value: '0', 
+      value: stats.totalShotsFaced.toString(), 
       suffix: '', 
-      trend: 0,
-      trendValue: '0%'
+      trend: stats.totalShotsFaced > 0 ? 1 : 0,
+      trendValue: stats.totalGames > 0 ? '+' + (stats.totalShotsFaced / stats.totalGames).toFixed(0) : '0'
     },
     { 
       label: 'Goals Against', 
-      value: '0', 
+      value: stats.totalGoalsAgainst.toString(), 
       suffix: '', 
-      trend: 0,
-      trendValue: '0%'
+      trend: stats.totalGoalsAgainst > 0 ? -1 : 0,
+      trendValue: stats.totalGames > 0 ? '+' + (stats.totalGoalsAgainst / stats.totalGames).toFixed(0) : '0'
     },
   ];
 
@@ -423,11 +442,24 @@ const PerformanceStats = ({ teamType }: { teamType: 'highschool' | 'club' }) => 
 };
 
 // Per Game Averages Component
-const PerGameAverages = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
+const PerGameAverages = ({ teamType, seasonStats }: { teamType: 'highschool' | 'club', seasonStats: SeasonStats | null }) => {
+  // Use real data from seasonStats or default to zeros if not available
+  const stats = seasonStats || {
+    totalGames: 0,
+    totalSaves: 0,
+    totalShotsFaced: 0,
+    totalGoalsAgainst: 0
+  };
+  
+  // Calculate per game averages
+  const savesPerGame = stats.totalGames > 0 ? (stats.totalSaves / stats.totalGames).toFixed(1) : '0.0';
+  const shotsFacedPerGame = stats.totalGames > 0 ? (stats.totalShotsFaced / stats.totalGames).toFixed(1) : '0.0';
+  const goalsAgainstPerGame = stats.totalGames > 0 ? (stats.totalGoalsAgainst / stats.totalGames).toFixed(1) : '0.0';
+  
   const perGameStats = [
-    { label: 'Saves', value: '0.0' },
-    { label: 'Shots Faced', value: '0.0' },
-    { label: 'Goals Against', value: '0.0' },
+    { label: 'Saves', value: savesPerGame },
+    { label: 'Shots Faced', value: shotsFacedPerGame },
+    { label: 'Goals Against', value: goalsAgainstPerGame },
   ];
 
   return (
@@ -1002,82 +1034,84 @@ const AIInsights = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
 
 // Recent Games Component - ESPN Style
 const RecentGames = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
-  // Mock recent games data - different for each team type
-  const recentGames = teamType === 'highschool' ? [
-    {
-      id: '1',
-      opponent: 'vs. Brookfield High School',
-      date: 'Mar 10, 2024',
-      result: 'W',
-      score: '12-8',
-      topStats: [
-        { label: 'Saves', value: '15' },
-        { label: 'Save %', value: '78.9%' },
-        { label: 'Goals Against', value: '4' },
-      ],
-    },
-    {
-      id: '2', 
-      opponent: 'at Central Valley High',
-      date: 'Mar 7, 2024',
-      result: 'L',
-      score: '9-11',
-      topStats: [
-        { label: 'Saves', value: '12' },
-        { label: 'Save %', value: '70.6%' },
-        { label: 'Goals Against', value: '5' },
-      ],
-    },
-    {
-      id: '3',
-      opponent: 'vs. North Shore Academy',
-      date: 'Mar 3, 2024', 
-      result: 'W',
-      score: '15-6',
-      topStats: [
-        { label: 'Saves', value: '8' },
-        { label: 'Save %', value: '88.9%' },
-        { label: 'Goals Against', value: '1' },
-      ],
-    },
-  ] : [
-    {
-      id: '1',
-      opponent: 'vs. Elite Lacrosse Club',
-      date: 'Mar 10, 2024',
-      result: 'W',
-      score: '10-7',
-      topStats: [
-        { label: 'Saves', value: '18' },
-        { label: 'Save %', value: '81.8%' },
-        { label: 'Goals Against', value: '4' },
-      ],
-    },
-    {
-      id: '2', 
-      opponent: 'at Thunder Bay LC',
-      date: 'Mar 7, 2024',
-      result: 'W',
-      score: '13-9',
-      topStats: [
-        { label: 'Saves', value: '14' },
-        { label: 'Save %', value: '73.7%' },
-        { label: 'Goals Against', value: '5' },
-      ],
-    },
-    {
-      id: '3',
-      opponent: 'vs. Metro Lacrosse',
-      date: 'Mar 3, 2024', 
-      result: 'L',
-      score: '8-11',
-      topStats: [
-        { label: 'Saves', value: '16' },
-        { label: 'Save %', value: '76.2%' },
-        { label: 'Goals Against', value: '5' },
-      ],
-    },
-  ];
+  const [recentGames, setRecentGames] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Load recent games from GameDataService
+  useEffect(() => {
+    const loadRecentGames = async () => {
+      setIsLoading(true);
+      try {
+        // Get all games
+        const allGames = await gameDataService.getAllGames();
+        
+        // Filter by season type and sort by date (newest first)
+        const filteredGames = allGames
+          .filter(game => game.seasonType === teamType)
+          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+          .slice(0, 3); // Take only the 3 most recent games
+        
+        // Transform to the format needed for display
+        const formattedGames = filteredGames.map(game => {
+          // Format date to be more readable
+          const gameDate = new Date(game.date);
+          const formattedDate = gameDate.toLocaleDateString('en-US', { 
+            month: 'short', 
+            day: 'numeric', 
+            year: 'numeric' 
+          });
+          
+          // Calculate top stats based on position
+          let topStats = [];
+          
+          if (game.position?.toLowerCase() === 'goalie' || game.position?.toLowerCase() === 'goalkeeper') {
+            // Goalie stats
+            const savePercentage = game.stats.shotsFaced > 0 
+              ? ((game.stats.saves / game.stats.shotsFaced) * 100).toFixed(1) + '%'
+              : '0.0%';
+              
+            topStats = [
+              { label: 'Saves', value: game.stats.saves.toString() },
+              { label: 'Save %', value: savePercentage },
+              { label: 'Goals Against', value: game.stats.goalsAgainst.toString() },
+            ];
+          } else {
+            // Field player stats
+            topStats = [
+              { label: 'Goals', value: game.stats.goals.toString() },
+              { label: 'Assists', value: game.stats.assists.toString() },
+              { label: 'Points', value: (game.stats.goals + game.stats.assists).toString() },
+            ];
+          }
+          
+          // Format opponent with home/away indicator
+          const opponentPrefix = game.isHome ? 'vs. ' : 'at ';
+          
+          return {
+            id: game.id,
+            opponent: opponentPrefix + game.opponent,
+            date: formattedDate,
+            result: game.result.toUpperCase().charAt(0), // Just take first letter: W, L, T
+            score: 'N/A', // We don't track opponent score yet
+            topStats: topStats,
+          };
+        });
+        
+        setRecentGames(formattedGames);
+      } catch (error) {
+        console.error('Failed to load recent games:', error);
+        setRecentGames([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    loadRecentGames();
+    
+    // Set up an interval to refresh games
+    const intervalId = setInterval(() => loadRecentGames(), 5000);
+    return () => clearInterval(intervalId);
+  }, [teamType]);
 
   const getResultColor = (result: string) => {
     return result === 'W' ? Colors.status.success : Colors.status.error;
@@ -1277,7 +1311,7 @@ const RecentGames = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
                 borderTopColor: Colors.border.secondary,
                 marginBottom: Spacing.md,
               }}>
-                {game.topStats.map((stat, statIndex) => (
+                {game.topStats.map((stat: { label: string; value: string }, statIndex: number) => (
                   <View key={statIndex} style={{ alignItems: 'center', flex: 1 }}>
                     <Text style={{
                       ...Typography.styles.body,
@@ -1751,17 +1785,14 @@ export default function DashboardScreen() {
           onProfileEdit={handleProfileEdit}
         />
         
-        {/* Performance Stats */}
-        <PerformanceStats teamType={selectedTeamType} />
-        
-        {/* Per Game Averages */}
-        <PerGameAverages teamType={selectedTeamType} />
-        
-        {/* Season Goals */}
-        <SeasonGoals teamType={selectedTeamType} userProfile={userProfile} />
-        
         {/* AI Insights */}
         <AIInsights teamType={selectedTeamType} />
+        
+        {/* Performance Stats */}
+        <PerformanceStats teamType={selectedTeamType} seasonStats={seasonStats} />
+        
+        {/* Per Game Averages */}
+        <PerGameAverages teamType={selectedTeamType} seasonStats={seasonStats} />
         
         {/* Upcoming Events */}
         <UpcomingEvents teamType={selectedTeamType} />
