@@ -74,6 +74,14 @@ export const GameLoggingModal: React.FC<GameLoggingModalProps> = ({
     result: '',
   });
 
+  // Validation state
+  const [errors, setErrors] = useState<{
+    opponent?: string;
+    result?: string;
+    stats?: { [key: string]: string };
+  }>({});
+  const [shakeFields, setShakeFields] = useState<string[]>([]);
+
   const [stats, setStats] = useState<GameStats>({
     goals: '',
     assists: '',
@@ -232,9 +240,67 @@ export const GameLoggingModal: React.FC<GameLoggingModalProps> = ({
     onClose();
   };
 
-  const handleSave = async () => {
+  const validateForm = (): boolean => {
+    const newErrors: {
+      opponent?: string;
+      result?: string;
+      stats?: { [key: string]: string };
+    } = {};
+    const fieldsToShake: string[] = [];
+    
+    // Validate opponent
     if (!gameDetails.opponent.trim()) {
-      Alert.alert('Missing Information', 'Please enter the opponent name.');
+      newErrors.opponent = 'Please enter the opponent name';
+      fieldsToShake.push('opponent');
+    }
+    
+    // Validate game result
+    if (!gameDetails.result) {
+      newErrors.result = 'Please select a game result';
+      fieldsToShake.push('result');
+    }
+    
+    // Validate required stats based on position
+    const statErrors: { [key: string]: string } = {};
+    
+    if (userPosition?.toLowerCase() === 'goalie' || userPosition?.toLowerCase() === 'goalkeeper') {
+      // Goalie validation
+      if (!stats.shotsFaced) {
+        statErrors.shotsFaced = 'Required';
+        fieldsToShake.push('shotsFaced');
+      }
+      if (!stats.saves) {
+        statErrors.saves = 'Required';
+        fieldsToShake.push('saves');
+      }
+    } else {
+      // Field player validation
+      if (!stats.shots) {
+        statErrors.shots = 'Required';
+        fieldsToShake.push('shots');
+      }
+    }
+    
+    if (Object.keys(statErrors).length > 0) {
+      newErrors.stats = statErrors;
+    }
+    
+    // Update error state
+    setErrors(newErrors);
+    
+    // Trigger shake animation for invalid fields
+    if (fieldsToShake.length > 0) {
+      setShakeFields(fieldsToShake);
+      setTimeout(() => setShakeFields([]), 500); // Reset shake after animation
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+      return false;
+    }
+    
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSave = async () => {
+    if (!validateForm()) {
       return;
     }
 
@@ -390,27 +456,53 @@ export const GameLoggingModal: React.FC<GameLoggingModalProps> = ({
                 <Text style={{
                   fontSize: 14,
                   fontFamily: Typography.fonts.bodyMedium,
-                  color: Colors.text.secondary,
+                  color: errors.opponent ? Colors.status.error : Colors.text.secondary,
                   marginBottom: Spacing.sm,
                 }}>
                   Opponent *
                 </Text>
-                <TextInput
-                  value={gameDetails.opponent}
-                  onChangeText={(text) => setGameDetails(prev => ({ ...prev, opponent: text }))}
-                  placeholder="Enter opponent name"
-                  placeholderTextColor={Colors.text.secondary}
-                  style={{
-                    backgroundColor: Colors.surface.primary,
-                    borderRadius: BorderRadius.lg,
-                    padding: Spacing.md,
-                    fontSize: 16,
-                    fontFamily: Typography.fonts.body,
-                    color: Colors.text.primary,
-                    borderWidth: 1,
-                    borderColor: Colors.border.secondary,
+                <MotiView
+                  animate={{
+                    translateX: shakeFields.includes('opponent') ? [-10, 10, -10, 10, -5, 5, -2, 2, 0] : 0
                   }}
-                />
+                  transition={{
+                    type: 'timing',
+                    duration: 400,
+                  }}
+                >
+                  <TextInput
+                    value={gameDetails.opponent}
+                    onChangeText={(text) => {
+                      setGameDetails(prev => ({ ...prev, opponent: text }));
+                      if (errors.opponent) {
+                        setErrors(prev => ({ ...prev, opponent: undefined }));
+                      }
+                    }}
+                    placeholder="Enter opponent name"
+                    placeholderTextColor={Colors.text.secondary}
+                    style={{
+                      backgroundColor: Colors.surface.primary,
+                      borderRadius: BorderRadius.lg,
+                      padding: Spacing.md,
+                      fontSize: 16,
+                      fontFamily: Typography.fonts.body,
+                      color: Colors.text.primary,
+                      borderWidth: 1,
+                      borderColor: errors.opponent ? Colors.status.error : Colors.border.secondary,
+                    }}
+                  />
+                </MotiView>
+                {errors.opponent && (
+                  <Text style={{
+                    fontSize: 12,
+                    fontFamily: Typography.fonts.body,
+                    color: Colors.status.error,
+                    marginTop: 4,
+                    marginLeft: 4,
+                  }}>
+                    {errors.opponent}
+                  </Text>
+                )}
               </View>
 
               {/* Season Type Toggle */}
@@ -475,18 +567,29 @@ export const GameLoggingModal: React.FC<GameLoggingModalProps> = ({
                 <Text style={{
                   fontSize: 14,
                   fontFamily: Typography.fonts.bodyMedium,
-                  color: Colors.text.secondary,
+                  color: errors.result ? Colors.status.error : Colors.text.secondary,
                   marginBottom: Spacing.sm,
                 }}>
-                  Game Result
+                  Game Result *
                 </Text>
-                <View style={{
-                  flexDirection: 'row',
-                  backgroundColor: Colors.surface.primary,
-                  borderRadius: BorderRadius.lg,
-                  padding: 4,
-                  gap: 4,
-                }}>
+                <MotiView
+                  animate={{
+                    translateX: shakeFields.includes('result') ? [-10, 10, -10, 10, -5, 5, -2, 2, 0] : 0
+                  }}
+                  transition={{
+                    type: 'timing',
+                    duration: 400,
+                  }}
+                >
+                  <View style={{
+                    flexDirection: 'row',
+                    backgroundColor: Colors.surface.primary,
+                    borderRadius: BorderRadius.lg,
+                    padding: 4,
+                    gap: 4,
+                    borderWidth: errors.result ? 1 : 0,
+                    borderColor: errors.result ? Colors.status.error : 'transparent',
+                  }}>
                   <Pressable
                     onPress={() => setGameDetails(prev => ({ ...prev, result: 'win' }))}
                     style={{
