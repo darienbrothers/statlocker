@@ -146,6 +146,18 @@ class GameDataService {
       .slice(0, limit);
   }
 
+  // Get a specific game by ID
+  async getGameById(id: string): Promise<SavedGame | null> {
+    try {
+      const games = await this.getAllGames();
+      const game = games.find(g => g.id === id);
+      return game || null;
+    } catch (error) {
+      console.error(`Error getting game with ID ${id}:`, error);
+      return null;
+    }
+  }
+
   // Update season stats based on all games
   private async updateSeasonStats(games: SavedGame[]): Promise<void> {
     const stats: SeasonStats = {

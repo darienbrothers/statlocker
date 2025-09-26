@@ -9,7 +9,8 @@ import * as Haptics from 'expo-haptics';
 
 import { Colors, Typography, Spacing, BorderRadius, Shadows } from '../../../shared/theme';
 import { HeroCard } from '../../../shared/components/HeroCard';
-import { gameDataService, SeasonStats } from '../../../shared/services/GameDataService';
+import { gameDataService, SeasonStats, SavedGame } from '../../../shared/services/GameDataService';
+import GameDetailsModal from '../../../shared/components/GameDetailsModal';
 
 // Hero Section Component
 const HeroSection = ({ 
@@ -1128,7 +1129,25 @@ const RecentGames = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
 
   const handleGamePress = async (gameId: string) => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    console.log('Navigate to game details:', gameId);
+    try {
+      const game = await gameDataService.getGameById(gameId);
+      if (game) {
+        setSelectedGame(game);
+        setGameDetailsVisible(true);
+      }
+    } catch (error) {
+      console.error('Failed to load game details:', error);
+    }
+  };
+  
+  const handleCloseGameDetails = () => {
+    setGameDetailsVisible(false);
+  };
+  
+  const handleEditGame = (game: SavedGame) => {
+    console.log('Edit game:', game.id);
+    // TODO: Implement game editing functionality
+    setGameDetailsVisible(false);
   };
 
   // Show empty state if no games
@@ -1669,6 +1688,8 @@ export default function DashboardScreen() {
   const [selectedTeamType, setSelectedTeamType] = React.useState<'highschool' | 'club'>('highschool');
   const [userProfile, setUserProfile] = useState<any>(null);
   const [seasonStats, setSeasonStats] = useState<SeasonStats | null>(null);
+  const [selectedGame, setSelectedGame] = useState<SavedGame | null>(null);
+  const [gameDetailsVisible, setGameDetailsVisible] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
@@ -1800,6 +1821,14 @@ export default function DashboardScreen() {
         {/* Recent Games */}
         <RecentGames teamType={selectedTeamType} />
       </ScrollView>
+      
+      {/* Game Details Modal */}
+      <GameDetailsModal
+        visible={gameDetailsVisible}
+        onClose={handleCloseGameDetails}
+        game={selectedGame}
+        onEdit={handleEditGame}
+      />
     </SafeAreaView>
   );
 }
