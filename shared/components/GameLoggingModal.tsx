@@ -661,6 +661,7 @@ export const GameLoggingModal: React.FC<GameLoggingModalProps> = ({
                   </Text>
                 )}
               </View>
+            </MotiView>
 
             {/* Stats Section */}
             <MotiView
