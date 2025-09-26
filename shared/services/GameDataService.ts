@@ -158,6 +158,33 @@ class GameDataService {
     }
   }
 
+  // Update an existing game
+  async updateGame(updatedGame: SavedGame): Promise<SavedGame | null> {
+    try {
+      const games = await this.getAllGames();
+      const gameIndex = games.findIndex(g => g.id === updatedGame.id);
+      
+      if (gameIndex === -1) {
+        console.error(`Game with ID ${updatedGame.id} not found`);
+        return null;
+      }
+      
+      // Update the game
+      games[gameIndex] = updatedGame;
+      
+      // Save updated games list
+      await AsyncStorage.setItem(GameDataService.GAMES_KEY, JSON.stringify(games));
+      
+      // Update season stats
+      await this.updateSeasonStats(games);
+      
+      return updatedGame;
+    } catch (error) {
+      console.error(`Error updating game with ID ${updatedGame.id}:`, error);
+      return null;
+    }
+  }
+
   // Update season stats based on all games
   private async updateSeasonStats(games: SavedGame[]): Promise<void> {
     const stats: SeasonStats = {

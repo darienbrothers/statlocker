@@ -590,7 +590,7 @@ export const GameLoggingModal: React.FC<GameLoggingModalProps> = ({
                     borderWidth: errors.result ? 1 : 0,
                     borderColor: errors.result ? Colors.status.error : 'transparent',
                   }}>
-                  <Pressable
+                    <Pressable
                     onPress={() => setGameDetails(prev => ({ ...prev, result: 'win' }))}
                     style={{
                       flex: 1,

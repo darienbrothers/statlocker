@@ -4,13 +4,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { MotiView } from 'moti';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Haptics from 'expo-haptics';
 
 import { Colors, Typography, Spacing, BorderRadius, Shadows } from '../../../shared/theme';
 import { HeroCard } from '../../../shared/components/HeroCard';
 import { gameDataService, SeasonStats, SavedGame } from '../../../shared/services/GameDataService';
-import { GameDetailsModal } from '../../../shared/components/GameDetailsModal';
-import GameEditModal from '../../../shared/components/GameEditModal';
+import GameDetailsModal from '../../../shared/components/GameDetailsModal';
 
 // Hero Section Component
 const HeroSection = ({ 
@@ -1145,27 +1145,9 @@ const RecentGames = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
   };
   
   const handleEditGame = (game: SavedGame) => {
-    setSelectedGame(game);
+    console.log('Edit game:', game.id);
+    // TODO: Implement game editing functionality
     setGameDetailsVisible(false);
-    setGameEditVisible(true);
-  };
-  
-  const handleSaveEditedGame = async (updatedGame: SavedGame) => {
-    try {
-      await gameDataService.updateGame(updatedGame);
-      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Success);
-      
-      // Refresh stats after update
-      const stats = await gameDataService.getSeasonStats();
-      setSeasonStats(stats);
-    } catch (error) {
-      console.error('Failed to update game:', error);
-      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-    }
-  };
-  
-  const handleCloseEditModal = () => {
-    setGameEditVisible(false);
   };
 
   // Show empty state if no games
@@ -1707,8 +1689,9 @@ export default function DashboardScreen() {
   const [userProfile, setUserProfile] = useState<any>(null);
   const [seasonStats, setSeasonStats] = useState<SeasonStats | null>(null);
   const [selectedGame, setSelectedGame] = useState<SavedGame | null>(null);
+  const [gameDetailsVisible, setGameDetailsVisible] = useState<boolean>(false);
+  const [selectedGame, setSelectedGame] = useState<SavedGame | null>(null);
   const [gameDetailsVisible, setGameDetailsVisible] = useState(false);
-  const [gameEditVisible, setGameEditVisible] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
@@ -1847,14 +1830,6 @@ export default function DashboardScreen() {
         onClose={handleCloseGameDetails}
         game={selectedGame}
         onEdit={handleEditGame}
-      />
-      
-      {/* Game Edit Modal */}
-      <GameEditModal
-        visible={gameEditVisible}
-        onClose={handleCloseEditModal}
-        game={selectedGame}
-        onSave={handleSaveEditedGame}
       />
     </SafeAreaView>
   );
