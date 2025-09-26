@@ -117,13 +117,12 @@ export default function WelcomeScreen() {
 
   const handleGetStarted = async () => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    router.push('/onboarding/name');
+    router.push('/auth');
   };
 
   const handleSignIn = async () => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    // TODO: Navigate to auth screen
-    console.log('Navigate to sign in');
+    router.push('/auth');
   };
 
   return (
