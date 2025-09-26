@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -12,7 +12,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 
 import { useAuthStore } from '../../../shared/stores/authStore';
@@ -22,6 +22,7 @@ type Mode = 'signIn' | 'signUp';
 
 export default function AuthScreen() {
   const { signIn, signUp, resetPassword, isLoading, error, clearError } = useAuthStore();
+  const { mode: initialMode } = useLocalSearchParams<{ mode?: string }>();
 
   const [mode, setMode] = useState<Mode>('signUp');
   const [firstName, setFirstName] = useState('');
@@ -30,6 +31,12 @@ export default function AuthScreen() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
+
+  useEffect(() => {
+    if (initialMode === 'signIn' || initialMode === 'signUp') {
+      setMode(initialMode as Mode);
+    }
+  }, [initialMode]);
 
   const validateField = (field: string, value: string) => {
     const errors = { ...fieldErrors };
