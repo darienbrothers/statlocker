@@ -158,7 +158,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 }));
 
 // Initialize auth state listener
-auth.onAuthStateChanged((user) => {
+auth.onAuthStateChanged((user: User | null) => {
   const store = useAuthStore.getState();
   store.setUser(user);
   
