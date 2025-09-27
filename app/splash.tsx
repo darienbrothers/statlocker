@@ -57,12 +57,12 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
       ]).start();
     }, 400);
 
-    // Navigate to onboarding screen after animations
+    // Navigate to onboarding slides after animations
     setTimeout(() => {
       if (onFinish) {
         onFinish();
       } else {
-        router.replace('/onboarding');
+        router.replace('/(onboarding)/slides');
       }
     }, 3000);
 

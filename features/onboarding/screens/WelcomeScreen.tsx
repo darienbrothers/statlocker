@@ -81,7 +81,7 @@ export default function WelcomeScreen() {
 
   const handleGetStarted = async () => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    router.push('/auth?mode=signUp');
+    router.push('/(onboarding)/basic-info');
   };
 
   const handleSignIn = async () => {

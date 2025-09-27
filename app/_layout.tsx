@@ -38,7 +38,6 @@ export default function RootLayout() {
       <Stack.Screen name="splash" />
       <Stack.Screen name="auth" />
       <Stack.Screen name="main" />
-      <Stack.Screen name="onboarding" />
       <Stack.Screen name="(onboarding)" />
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="stats/game/[gameId]" />

@@ -24,28 +24,24 @@ const slides = [
     title: 'Track Every Stat',
     subtitle: 'Every rep counts.',
     description: 'Log games with position-specific stats that matter most to your performance and growth.',
-    image: require('../../../assets/images/trackStats.png'),
   },
   {
     id: 2,
     title: 'AI Insights',
     subtitle: 'Turn data into dominance.',
     description: 'Unlock personalized performance breakdowns and recommendations powered by advanced AI.',
-    image: require('../../../assets/images/aiInsights.png'),
   },
   {
     id: 3,
     title: 'Stay Organized',
     subtitle: 'Recruiting made simple.',
     description: 'Keep your athletic profile sharp with tools to manage schools, goals, and milestones.',
-    image: require('../../../assets/images/planOrganize.png'),
   },
   {
     id: 4,
     title: 'Crush Your Goals',
     subtitle: 'Progress you can see.',
     description: 'Set season goals, earn badges, and stay motivated as you push your game to the next level.',
-    image: require('../../../assets/images/goals.png'),
   },
 ];
 
@@ -86,11 +82,6 @@ export default function OnboardingSliders({ onComplete }: OnboardingSlidersProps
     };
   }, []);
 
-  const handleScroll = (event: any) => {
-    const slideIndex = Math.round(event.nativeEvent.contentOffset.x / width);
-    setCurrentSlide(slideIndex);
-  };
-
   const goToSlide = async (index: number) => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     scrollViewRef.current?.scrollTo({ x: index * width, animated: true });
@@ -122,7 +113,7 @@ export default function OnboardingSliders({ onComplete }: OnboardingSlidersProps
     if (onComplete) {
       onComplete();
     } else {
-      router.replace('/welcome');
+      router.replace('/(onboarding)/welcome');
     }
   };
 
@@ -186,8 +177,7 @@ export default function OnboardingSliders({ onComplete }: OnboardingSlidersProps
             horizontal
             pagingEnabled
             showsHorizontalScrollIndicator={false}
-            onScroll={handleScroll}
-            scrollEventThrottle={16}
+            scrollEnabled={false}
             style={styles.scrollView}
           >
             {slides.map((slide, index) => (
