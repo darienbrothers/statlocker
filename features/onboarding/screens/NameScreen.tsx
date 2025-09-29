@@ -778,7 +778,7 @@ export default function NameScreen() {
                   fontSize: 18,
                   lineHeight: 24,
                   fontFamily: Typography.fonts.bodyMedium,
-                  color: isFormValid ? '#FFFFFF' : Colors.text.tertiary,
+                  color: isFormValid ? Colors.text.inverse : Colors.text.tertiary,
                   fontWeight: '600',
                 }}>
                   Add Profile Photo
@@ -786,7 +786,7 @@ export default function NameScreen() {
                 <Ionicons
                   name="arrow-forward"
                   size={20}
-                  color={isFormValid ? '#FFFFFF' : Colors.text.tertiary}
+                  color={isFormValid ? Colors.text.inverse : Colors.text.tertiary}
                 />
               </View>
             </LinearGradient>

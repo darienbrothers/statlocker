@@ -9,12 +9,12 @@ export default function OnboardingLayout() {
         animation: 'slide_from_right',
       }}
     >
-      <Stack.Screen name="slides" />
       <Stack.Screen name="welcome" />
-      <Stack.Screen name="basic-info" />
-      <Stack.Screen name="team" />
-      <Stack.Screen name="goals" />
-      <Stack.Screen name="review" />
+      <Stack.Screen name="coach-intro" />
+      <Stack.Screen name="sport-selection" />
+      <Stack.Screen name="name-input" />
+      <Stack.Screen name="team-identity" />
+      <Stack.Screen name="complete" />
     </Stack>
   );
 }

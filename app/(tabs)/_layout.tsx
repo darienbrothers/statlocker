@@ -44,7 +44,7 @@ const FloatingActionButton = ({ onPress }: { onPress: () => void }) => {
           <Ionicons 
             name="add" 
             size={28} 
-            color="#FFFFFF" 
+            color={Colors.text.inverse} 
           />
         </LinearGradient>
       </Pressable>

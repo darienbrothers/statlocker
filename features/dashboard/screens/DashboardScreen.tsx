@@ -75,7 +75,7 @@ const HeroSection = ({
         }}>
           <Text style={{
             ...Typography.styles.caption,
-            color: '#FFFFFF',
+            color: Colors.text.primary,
             fontWeight: '600',
           }}>
             {userProfile?.gender && userProfile?.sport ? `${userProfile.gender} ${userProfile.sport}` : 'Lacrosse'}
@@ -241,7 +241,7 @@ const HeroSection = ({
           >
             <Text style={{
               ...Typography.styles.body,
-              color: selectedTeamType === 'highschool' ? '#FFFFFF' : Colors.text.secondary,
+              color: selectedTeamType === 'highschool' ? Colors.text.inverse : Colors.text.secondary,
               fontWeight: selectedTeamType === 'highschool' ? '600' : '500',
               lineHeight: 20,
             }}>
@@ -261,7 +261,7 @@ const HeroSection = ({
           >
             <Text style={{
               ...Typography.styles.body,
-              color: selectedTeamType === 'club' ? '#FFFFFF' : Colors.text.secondary,
+              color: selectedTeamType === 'club' ? Colors.text.inverse : Colors.text.secondary,
               fontWeight: selectedTeamType === 'club' ? '600' : '500',
               lineHeight: 20,
             }}>
@@ -819,7 +819,7 @@ const AIInsights = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
         }}>
           <Text style={{
             ...Typography.styles.caption,
-            color: '#FFFFFF',
+            color: Colors.text.primary,
             fontSize: 10,
             fontWeight: '600',
           }}>
@@ -868,7 +868,7 @@ const AIInsights = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
         >
           <Text style={{
             ...Typography.styles.body,
-            color: '#FFFFFF',
+            color: Colors.text.primary,
             fontWeight: '600',
             fontSize: 14,
             lineHeight: 18,
@@ -930,7 +930,7 @@ const AIInsights = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
         }}>
           <Text style={{
             ...Typography.styles.caption,
-            color: '#FFFFFF',
+            color: Colors.text.primary,
             fontSize: 10,
             fontWeight: '600',
           }}>
@@ -1003,7 +1003,7 @@ const AIInsights = ({ teamType }: { teamType: 'highschool' | 'club' }) => {
         >
           <Text style={{
             ...Typography.styles.caption,
-            color: '#FFFFFF',
+            color: Colors.text.primary,
             fontWeight: '600',
             lineHeight: 16,
           }}>

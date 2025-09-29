@@ -12,45 +12,46 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
+import { Ionicons } from '@expo/vector-icons';
 
 import { Colors, Typography, Spacing } from '../../../shared/theme';
 
 export default function WelcomeScreen() {
   // Animation values
+  const logoOpacity = useRef(new Animated.Value(0)).current;
+  const logoTranslateY = useRef(new Animated.Value(-20)).current;
   const titleOpacity = useRef(new Animated.Value(0)).current;
-  const titleTranslateY = useRef(new Animated.Value(-20)).current;
-  const subtitleOpacity = useRef(new Animated.Value(0)).current;
-  const subtitleTranslateY = useRef(new Animated.Value(-10)).current;
+  const titleTranslateY = useRef(new Animated.Value(-10)).current;
   const buttonsOpacity = useRef(new Animated.Value(0)).current;
   const buttonsTranslateY = useRef(new Animated.Value(20)).current;
 
   useEffect(() => {
-    // Set status bar style for white background
-    StatusBar.setBarStyle('dark-content', true);
+    // Set status bar style for black background
+    StatusBar.setBarStyle('light-content', true);
 
-    // Animate title entrance
+    // Animate logo entrance
     Animated.parallel([
-      Animated.timing(titleOpacity, {
+      Animated.timing(logoOpacity, {
         toValue: 1,
         duration: 800,
         useNativeDriver: true,
       }),
-      Animated.timing(titleTranslateY, {
+      Animated.timing(logoTranslateY, {
         toValue: 0,
         duration: 800,
         useNativeDriver: true,
       }),
     ]).start();
 
-    // Animate subtitle after title
+    // Animate title after logo
     setTimeout(() => {
       Animated.parallel([
-        Animated.timing(subtitleOpacity, {
+        Animated.timing(titleOpacity, {
           toValue: 1,
           duration: 600,
           useNativeDriver: true,
         }),
-        Animated.timing(subtitleTranslateY, {
+        Animated.timing(titleTranslateY, {
           toValue: 0,
           duration: 600,
           useNativeDriver: true,
@@ -75,13 +76,13 @@ export default function WelcomeScreen() {
     }, 800);
 
     return () => {
-      StatusBar.setBarStyle('dark-content', true);
+      StatusBar.setBarStyle('light-content', true);
     };
   }, []);
 
   const handleGetStarted = async () => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    router.push('/(onboarding)/basic-info');
+    router.push('/(onboarding)/coach-intro');
   };
 
   const handleSignIn = async () => {
@@ -91,101 +92,121 @@ export default function WelcomeScreen() {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-
-      {/* Background Image - Top Portion */}
-      <View style={styles.imageContainer}>
+      <StatusBar barStyle="light-content" backgroundColor="#000000" />
+      
+      {/* Background Image */}
+      <Image
+        source={require('../../../assets/images/welcomeBackground.png')}
+        style={styles.backgroundImage}
+        resizeMode="contain"
+      />
+      
+      {/* Background Blend Overlay */}
+      <View style={styles.backgroundBlend} />
+      
+      {/* Edge Fade Gradients for seamless blending */}
+      <LinearGradient
+        colors={['#000000', 'rgba(0,0,0,0.9)', 'rgba(0,0,0,0.6)', 'rgba(0,0,0,0.3)', 'transparent']}
+        style={styles.topGradient}
+      />
+      
+      <LinearGradient
+        colors={['transparent', 'rgba(0,0,0,0.3)', 'rgba(0,0,0,0.6)', 'rgba(0,0,0,0.9)', '#000000']}
+        style={styles.bottomGradient}
+      />
+      
+      {/* Left Edge Gradient */}
+      <LinearGradient
+        colors={['#000000', 'rgba(0,0,0,0.8)', 'rgba(0,0,0,0.4)', 'transparent']}
+        start={[0, 0]}
+        end={[1, 0]}
+        style={styles.leftGradient}
+      />
+      
+      {/* Right Edge Gradient */}
+      <LinearGradient
+        colors={['transparent', 'rgba(0,0,0,0.4)', 'rgba(0,0,0,0.8)', '#000000']}
+        start={[0, 0]}
+        end={[1, 0]}
+        style={styles.rightGradient}
+      />
+      
+      <SafeAreaView style={styles.safeArea}>
+        {/* Logo at top */}
+      <Animated.View
+        style={[
+          styles.logoContainer,
+          {
+            opacity: logoOpacity,
+            transform: [{ translateY: logoTranslateY }],
+          },
+        ]}
+      >
         <Image
-          source={require('../../../assets/images/welcomeBG.png')}
-          style={styles.backgroundImage}
-          resizeMode="cover"
+          source={require('../../../assets/logos/textLogoWhite.png')}
+          style={styles.logo}
+          resizeMode="contain"
         />
-        {/* Top Gradient Overlay */}
-        <LinearGradient
-          colors={['rgba(0, 0, 0, 0.8)', 'rgba(0, 0, 0, 0.3)', 'transparent']}
-          locations={[0, 0.3, 1]}
-          style={styles.gradientOverlay}
-        />
-        {/* Bottom Blend Gradient */}
-        <LinearGradient
-          colors={['transparent', 'rgba(0, 0, 0, 0.4)', 'rgba(0, 0, 0, 0.9)', '#000000']}
-          locations={[0, 0.3, 0.7, 1]}
-          style={styles.bottomBlendGradient}
-        />
-      </View>
+      </Animated.View>
 
-      {/* Bottom Content Area */}
-      <View style={styles.bottomContainer}>
-        <SafeAreaView style={styles.safeArea} edges={['bottom']}>
-          <View style={styles.contentContainer}>
-            {/* Title and Subtitle */}
-            <View style={styles.textContainer}>
-              <Animated.View
-                style={[
-                  styles.titleContainer,
-                  {
-                    opacity: titleOpacity,
-                    transform: [{ translateY: titleTranslateY }],
-                  },
-                ]}
-              >
-                <Text style={styles.titleText}>Welcome to StatLocker</Text>
-              </Animated.View>
+      {/* Content Container */}
+      <View style={styles.contentContainer}>
+        {/* Welcome Message */}
+        <Animated.View
+          style={[
+            styles.textContainer,
+            {
+              opacity: titleOpacity,
+              transform: [{ translateY: titleTranslateY }],
+            },
+          ]}
+        >
+          <Text style={styles.welcomeTitle}>
+            Welcome to StatLocker
+          </Text>
+          <Text style={styles.taglineMain}>
+            Track faster. Improve smarter.
+          </Text>
+        </Animated.View>
 
-              <Animated.View
-                style={[
-                  styles.subtitleContainer,
-                  {
-                    opacity: subtitleOpacity,
-                    transform: [{ translateY: subtitleTranslateY }],
-                  },
-                ]}
-              >
-                <Text style={styles.subtitleText}>
-                  Track your journey, crush your goals, and elevate your game — all in one place.
-                </Text>
-              </Animated.View>
-            </View>
-
-            {/* Action Buttons */}
-            <Animated.View
-              style={[
-                styles.buttonsContainer,
-                {
-                  opacity: buttonsOpacity,
-                  transform: [{ translateY: buttonsTranslateY }],
-                },
-              ]}
+        {/* Action Buttons */}
+        <Animated.View
+          style={[
+            styles.buttonsContainer,
+            {
+              opacity: buttonsOpacity,
+              transform: [{ translateY: buttonsTranslateY }],
+            },
+          ]}
+        >
+          {/* Start Journey Button */}
+          <Pressable
+            style={styles.primaryButton}
+            onPress={handleGetStarted}
+          >
+            <LinearGradient
+              colors={[Colors.brand.primary, Colors.brand.primaryShade]}
+              start={[0, 0]}
+              end={[1, 1]}
+              style={styles.primaryButtonGradient}
             >
-              {/* Start Journey Button */}
-              <Pressable
-                style={styles.primaryButton}
-                onPress={handleGetStarted}
-              >
-                <LinearGradient
-                  colors={[Colors.brand.primary, Colors.brand.primaryShade]}
-                  start={[0, 0]}
-                  end={[1, 1]}
-                  style={styles.primaryButtonGradient}
-                >
-                  <Text style={styles.primaryButtonText}>Start Journey</Text>
-                </LinearGradient>
-              </Pressable>
+              <Text style={styles.primaryButtonText}>Get Started</Text>
+            </LinearGradient>
+          </Pressable>
 
-              {/* Sign In Link */}
-              <Pressable
-                style={styles.secondaryButton}
-                onPress={handleSignIn}
-              >
-                <Text style={styles.secondaryButtonText}>
-                  Already have an account?{' '}
-                  <Text style={styles.signInText}>Sign In</Text>
-                </Text>
-              </Pressable>
-            </Animated.View>
-          </View>
-        </SafeAreaView>
+          {/* Already our user link - matching screenshot design */}
+          <Pressable
+            style={styles.secondaryButton}
+            onPress={handleSignIn}
+          >
+            <Text style={styles.secondaryButtonText}>
+              Already have an account?{' '}
+              <Text style={styles.signInText}>Sign In</Text>
+            </Text>
+          </Pressable>
+        </Animated.View>
       </View>
+      </SafeAreaView>
     </View>
   );
 }
@@ -195,78 +216,113 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000000',
   },
-  imageContainer: {
-    flex: 0.6, // Takes up 60% of screen height
-    width: '100%' as const,
-    position: 'relative' as const,
-  },
   backgroundImage: {
-    width: '100%' as const,
-    height: '130%' as const, // Make image larger for better positioning
-    top: '-5%' as const, // Shift image down less to show more of the top
-  },
-  gradientOverlay: {
-    position: 'absolute' as const,
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    zIndex: 1,
+    width: '100%',
+    height: '100%',
+    opacity: 0.5, // Reduced opacity for better text readability
   },
-  bottomBlendGradient: {
-    position: 'absolute' as const,
+  backgroundBlend: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Stronger overlay for better text contrast
+  },
+  topGradient: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: '35%', // Reduced to show more of the athletes
+  },
+  bottomGradient: {
+    position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    height: '50%' as const, // Covers bottom half of image area
-    zIndex: 2,
+    height: '35%', // Reduced to show more of the athletes
   },
-  bottomContainer: {
-    flex: 0.4, // Takes up 40% of screen height
-    backgroundColor: '#000000',
-    justifyContent: 'space-between' as const,
+  leftGradient: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    width: '25%', // Fade from left edge
+  },
+  rightGradient: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    width: '25%', // Fade from right edge
   },
   safeArea: {
     flex: 1,
+  },
+  logoContainer: {
+    paddingTop: Spacing.xl * 2, // Position similar to GRAVL
+    paddingHorizontal: Spacing.xl,
+    alignItems: 'center' as const,
+    marginBottom: Spacing.lg,
+    zIndex: 10, // Ensure logo is above gradients
+  },
+  logo: {
+    width: 450, // Much bigger logo for impact
+    height: 130, // Proportional height
   },
   contentContainer: {
     flex: 1,
     justifyContent: 'space-between' as const,
     paddingHorizontal: Spacing.xl,
-    paddingTop: Spacing.lg,
+    paddingBottom: Spacing.xl,
+    zIndex: 10, // Ensure content is above gradients
   },
   textContainer: {
+    flex: 1,
+    justifyContent: 'center' as const,
     alignItems: 'center' as const,
+    paddingHorizontal: Spacing.md,
+    marginTop: Spacing.md, // Adjust spacing for new layout
   },
-  titleContainer: {
-    marginBottom: Spacing.sm,
-  },
-  titleText: {
-    fontSize: 28,
-    lineHeight: 36,
-    fontFamily: Typography.fonts.display,
-    color: '#FFFFFF',
+  welcomeTitle: {
+    ...Typography.styles.h1,
+    color: Colors.text.primary,
     textAlign: 'center' as const,
+    fontSize: 32,
     fontWeight: '700' as const,
+    marginBottom: Spacing.sm,
+    lineHeight: 38,
   },
-  subtitleContainer: {
-    marginBottom: Spacing.lg,
-  },
-  subtitleText: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontFamily: Typography.fonts.body,
-    color: '#FFFFFF',
+  taglineMain: {
+    ...Typography.styles.h2,
+    color: Colors.text.primary,
     textAlign: 'center' as const,
-    fontWeight: '400' as const,
-    opacity: 0.9,
+    fontSize: 24,
+    fontWeight: '500' as const,
+    marginBottom: Spacing.sm,
+    lineHeight: 30,
+  },
+  taglineSecondary: {
+    ...Typography.styles.h2,
+    color: Colors.text.primary,
+    textAlign: 'center' as const,
+    fontSize: 22,
+    fontWeight: '600' as const,
+    letterSpacing: 0.5,
+    lineHeight: 28,
   },
   buttonsContainer: {
+    gap: Spacing.lg,
     paddingBottom: Spacing.md,
-    gap: Spacing.md,
   },
   primaryButton: {
-    borderRadius: 12,
+    borderRadius: 25,
     minHeight: 56,
     overflow: 'hidden' as const,
   },
@@ -278,10 +334,9 @@ const styles = StyleSheet.create({
     minHeight: 56,
   },
   primaryButtonText: {
-    color: '#FFFFFF',
+    ...Typography.styles.button,
+    color: Colors.text.inverse,
     fontSize: 18,
-    lineHeight: 24,
-    fontFamily: Typography.fonts.bodyMedium,
     fontWeight: '600' as const,
   },
   secondaryButton: {
@@ -289,20 +344,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.lg,
     alignItems: 'center' as const,
     justifyContent: 'center' as const,
-    minHeight: 44,
   },
   secondaryButtonText: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontFamily: Typography.fonts.body,
-    color: '#FFFFFF',
+    ...Typography.styles.body,
+    color: Colors.text.secondary,
     textAlign: 'center' as const,
-    opacity: 0.8,
+    fontSize: 16,
   },
   signInText: {
-    color: '#FFFFFF',
-    fontFamily: Typography.fonts.bodyMedium,
-    fontWeight: '600' as const,
-    opacity: 1,
+    ...Typography.styles.body,
+    color: Colors.text.primary,
+    fontSize: 16,
+    fontWeight: '700' as const, // Bold for "Sign In"
   },
 });

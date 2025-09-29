@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -7,9 +7,12 @@ import {
   Dimensions,
   StatusBar,
   Text,
+  Easing,
 } from 'react-native';
 import { router } from 'expo-router';
+import * as Haptics from 'expo-haptics';
 import { TYPOGRAPHY_TOKENS } from '../shared/theme/typography';
+import { Colors } from '../shared/theme/colors';
 
 const { width, height } = Dimensions.get('window');
 
@@ -18,58 +21,55 @@ interface SplashScreenProps {
 }
 
 export default function SplashScreen({ onFinish }: SplashScreenProps) {
+  // Animation values
   const logoOpacity = useRef(new Animated.Value(0)).current;
-  const logoTranslateY = useRef(new Animated.Value(20)).current;
-  const textOpacity = useRef(new Animated.Value(0)).current;
-  const textTranslateY = useRef(new Animated.Value(10)).current;
+  const logoTranslateY = useRef(new Animated.Value(30)).current;
+  const logoScale = useRef(new Animated.Value(0.8)).current;
 
   useEffect(() => {
-    // Set status bar to light content for black background
+    // Set status bar to light content for background
     StatusBar.setBarStyle('light-content', true);
 
-    // Animate logo entrance
-    Animated.parallel([
-      Animated.timing(logoOpacity, {
-        toValue: 1,
-        duration: 800,
-        useNativeDriver: true,
-      }),
-      Animated.timing(logoTranslateY, {
-        toValue: 0,
-        duration: 800,
-        useNativeDriver: true,
-      }),
-    ]).start();
-
-    // Animate text after logo
+    // Elite logo entrance with spring bounce
     setTimeout(() => {
+      // Haptic feedback on logo entrance
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      
       Animated.parallel([
-        Animated.timing(textOpacity, {
+        Animated.timing(logoOpacity, {
           toValue: 1,
-          duration: 600,
+          duration: 700,
+          easing: Easing.out(Easing.cubic),
           useNativeDriver: true,
         }),
-        Animated.timing(textTranslateY, {
+        Animated.timing(logoTranslateY, {
           toValue: 0,
-          duration: 600,
+          duration: 700,
+          easing: Easing.out(Easing.back(1.2)),
+          useNativeDriver: true,
+        }),
+        Animated.spring(logoScale, {
+          toValue: 1,
+          tension: 100,
           useNativeDriver: true,
         }),
       ]).start();
-    }, 400);
+    }, 200);
 
-    // Navigate to onboarding slides after animations
+
+    // Navigate to welcome screen - shorter duration for clean logo experience
     setTimeout(() => {
       if (onFinish) {
         onFinish();
       } else {
-        router.replace('/(onboarding)/slides');
+        router.replace('/welcome');
       }
-    }, 3000);
+    }, 2000);
 
     return () => {
       StatusBar.setBarStyle('light-content', true);
     };
-  }, [onFinish]);
+  }, [onFinish, logoOpacity, logoTranslateY, logoScale]);
 
   return (
     <View style={styles.container}>
@@ -77,13 +77,16 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
 
       {/* Centered Content */}
       <View style={styles.centerContainer}>
-        {/* Logo */}
+        {/* Logo with Enhanced Animation */}
         <Animated.View
           style={[
             styles.logoContainer,
             {
               opacity: logoOpacity,
-              transform: [{ translateY: logoTranslateY }],
+              transform: [
+                { translateY: logoTranslateY },
+                { scale: logoScale }
+              ],
             },
           ]}
         >
@@ -94,18 +97,6 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
           />
         </Animated.View>
 
-        {/* Tagline Text */}
-        <Animated.View
-          style={[
-            styles.textContainer,
-            {
-              opacity: textOpacity,
-              transform: [{ translateY: textTranslateY }],
-            },
-          ]}
-        >
-          <Text style={styles.taglineText}>Track faster. Improve smarter.</Text>
-        </Animated.View>
       </View>
     </View>
   );
@@ -114,7 +105,7 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: '#000000', // Pure black background
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -122,27 +113,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 20,
   },
   logoContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 4,
+    marginBottom: 32,
   },
   logo: {
-    width: width * 0.7,
-    height: width * 0.7,
-    maxWidth: 350,
-    maxHeight: 350,
-  },
-  textContainer: {
-    alignItems: 'center',
-    paddingHorizontal: 40,
-  },
-  taglineText: {
-    ...TYPOGRAPHY_TOKENS.bodyLarge,
-    color: '#FFFFFF',
-    textAlign: 'center',
-    fontWeight: '500',
-    letterSpacing: 0.5,
+    // Much bigger logo for maximum impact
+    width: Math.min(width, height) * 0.75,
+    height: Math.min(width, height) * 0.75,
+    maxWidth: 450,
+    maxHeight: 450,
+    minWidth: 300,
+    minHeight: 300,
   },
 });

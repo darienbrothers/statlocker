@@ -380,7 +380,7 @@ const AddSchoolModal = ({
                   >
                     <Text style={{
                       ...Typography.styles.body,
-                      color: category === cat.id ? '#FFFFFF' : Colors.text.secondary,
+                      color: category === cat.id ? Colors.text.inverse : Colors.text.secondary,
                       fontWeight: '600',
                       fontSize: 14,
                     }}>
@@ -453,7 +453,7 @@ const TaskChecklist = ({ tasks, onToggleTask }: { tasks: Task[]; onToggleTask: (
                 marginRight: Spacing.md,
               }}>
                 {task.completed && (
-                  <Ionicons name="checkmark" size={12} color="#FFFFFF" />
+                  <Ionicons name="checkmark" size={12} color={Colors.text.inverse} />
                 )}
               </View>
               
@@ -588,7 +588,7 @@ const LockedFeaturesSection = () => {
       >
         <Text style={{
           ...Typography.styles.body,
-          color: '#FFFFFF',
+          color: Colors.text.inverse,
           fontWeight: '600',
           fontSize: 16,
         }}>
@@ -642,7 +642,7 @@ const ProfileHeader = ({
         >
           <Text style={{
             ...Typography.styles.body,
-            color: !showAcademic ? '#FFFFFF' : Colors.text.secondary,
+            color: !showAcademic ? Colors.text.inverse : Colors.text.secondary,
             fontWeight: '600',
             fontSize: 14,
           }}>
@@ -661,7 +661,7 @@ const ProfileHeader = ({
         >
           <Text style={{
             ...Typography.styles.body,
-            color: showAcademic ? '#FFFFFF' : Colors.text.secondary,
+            color: showAcademic ? Colors.text.inverse : Colors.text.secondary,
             fontWeight: '600',
             fontSize: 14,
           }}>

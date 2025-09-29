@@ -1,78 +1,157 @@
-// Premium color palette for StatLocker - Light theme
+/**
+ * Turf & Steel Theme - Dark theme color palette for StatLocker
+ * 
+ * This theme uses a dark foundation with green accents to create a modern,
+ * sports-focused aesthetic that's easy on the eyes during extended use.
+ */
 export const Colors = {
-  // Brand Colors
+  // Brand Colors - Turf & Steel Theme
   brand: {
-    primary: '#6366F1',      // Indigo-500
-    primaryTint: '#818CF8',  // Indigo-400
-    primaryShade: '#4F46E5', // Indigo-600
-    secondary: '#10B981',    // Emerald-500
-    accent: '#F59E0B',       // Amber-500
+    // PRIMARY: Turf Green (#16A34A) - Main brand color
+    // Usage: Primary buttons, FAB (Log Game), active highlights, progress bars, selected states
+    primary: '#16A34A',
+    primaryTint: '#22C55E',    // Lighter green for hover states
+    primaryShade: '#15803D',   // Darker green for pressed states
+    
+    // SECONDARY: Steel Silver (#9CA3AF) - Secondary brand color  
+    // Usage: Secondary UI elements, dividers, muted badges, inactive tab states
+    secondary: '#9CA3AF',
+    secondaryTint: '#D1D5DB',  // Lighter for subtle highlights
+    secondaryShade: '#6B7280', // Darker for pressed secondary elements
+    
+    // ACCENT: Keep success green as accent for consistency
+    accent: '#22C55E',
   },
 
-  // Surface Colors - Light theme
+  // Surface Colors - Dark Theme Foundation
   surface: {
-    primary: '#FFFFFF',      // White background
-    elevated: '#F9FAFB',     // Gray-50 for cards
-    elevated2: '#F3F4F6',    // Gray-100 for nested elements
-    elevated3: '#E5E7EB',    // Gray-200 for highest elevation
-    overlay: 'rgba(0, 0, 0, 0.5)', // Modal overlays
+    // BACKGROUND: Charcoal (#111827) - Main app background
+    // Usage: Root app background, screen backgrounds
+    primary: '#111827',
+    
+    // SURFACE: Asphalt (#1F2937) - Elevated card backgrounds
+    // Usage: Dashboard cards, Stats sections, modal backgrounds, bottom sheets
+    elevated: '#1F2937',
+    
+    // SURFACE ALT: Lighter surface (#273549) - Nested/hover surfaces
+    // Usage: Hover states, nested surfaces inside Stats/Game Details, pressed cards
+    elevated2: '#273549',
+    
+    // HIGHEST ELEVATION: Even lighter for stacked elements
+    elevated3: '#374151',
+    
+    // Modal/overlay backgrounds with opacity
+    overlay: 'rgba(17, 24, 39, 0.8)', // Dark overlay with transparency
   },
 
-  // Text Colors - Light theme
+  // Text Colors - Dark Theme Optimized
   text: {
-    primary: '#111827',      // Gray-900 - main text
-    secondary: '#6B7280',    // Gray-500 - secondary text
-    tertiary: '#9CA3AF',     // Gray-400 - muted text
-    disabled: '#D1D5DB',     // Gray-300 - disabled text
-    inverse: '#FFFFFF',      // White text on dark backgrounds
+    // PRIMARY TEXT: Near-white (#F8FAFC) - High contrast text
+    // Usage: Titles, headings, stat numbers, primary content
+    primary: '#F8FAFC',
+    
+    // SECONDARY TEXT: Slate gray (#94A3B8) - Readable secondary text
+    // Usage: Body text, captions, descriptions, secondary information
+    secondary: '#94A3B8',
+    
+    // TERTIARY: Muted text for less important content
+    tertiary: '#64748B',
+    
+    // DISABLED: Very muted for disabled states
+    disabled: '#475569',
+    
+    // INVERSE: White text for dark backgrounds (buttons, badges on primary colors)
+    inverse: '#FFFFFF',
   },
 
-  // Semantic Colors
+  // Semantic Colors - Status & Feedback
   semantic: {
-    success: "#10B981",
-    successTint: "#34D399",
-    warning: "#C7781F",
-    warningTint: "#F59E0B",
-    danger: "#DA2E2E",
-    dangerTint: "#EF4444",
-    info: "#3B82F6",
-    infoTint: "#60A5FA",
+    // SUCCESS: Bright green (#22C55E) - Positive feedback
+    // Usage: Positive trends, "WIN" badges, upward arrows, success messages
+    success: '#22C55E',
+    successTint: '#4ADE80',    // Lighter for backgrounds
+    
+    // WARNING: Amber for caution states
+    warning: '#F59E0B',
+    warningTint: '#FBBF24',
+    
+    // DANGER/ERROR: Red (#EF4444) - Negative feedback
+    // Usage: Negative trends, "LOSS" badges, error states, downward arrows
+    danger: '#EF4444',
+    dangerTint: '#F87171',     // Lighter for backgrounds
+    
+    // INFO: Blue for informational content
+    info: '#3B82F6',
+    infoTint: '#60A5FA',
   },
 
-  // Border & Divider Colors - Light theme
+  // Border & Divider Colors - Dark Theme
   border: {
-    primary: '#E5E7EB',      // Gray-200 - main borders
-    secondary: '#F3F4F6',    // Gray-100 - subtle borders
-    focus: '#6366F1',        // Brand primary for focus
-    success: '#10B981',
+    // PRIMARY BORDER: (#334155) - Main borders and separators
+    // Usage: Card borders, table borders, input borders, section dividers
+    primary: '#334155',
+    
+    // SECONDARY: Subtle borders for nested elements
+    secondary: '#1E293B',
+    
+    // FOCUS: Turf green for focused elements
+    focus: '#16A34A',
+    
+    // STATUS BORDERS: Match semantic colors
+    success: '#22C55E',
     warning: '#F59E0B',
     danger: '#EF4444',
-    accent: '#6366F1',       // Brand primary
+    accent: '#16A34A',
   },
 
-  // Interactive States - Light theme
+  // Interactive States - Dark Theme Optimized
   interactive: {
-    hover: 'rgba(0, 0, 0, 0.05)',     // Light black overlay
-    pressed: 'rgba(0, 0, 0, 0.1)',    // Darker black overlay
-    selected: 'rgba(99, 102, 241, 0.1)', // Brand overlay
-    disabled: 'rgba(0, 0, 0, 0.02)',  // Very light overlay
-    focus: 'rgba(99, 102, 241, 0.1)',
+    // HOVER: Light overlay for hover states
+    hover: 'rgba(255, 255, 255, 0.05)',
+    
+    // PRESSED: Stronger overlay for pressed states
+    pressed: 'rgba(255, 255, 255, 0.1)',
+    
+    // SELECTED: Turf green overlay for selected states
+    selected: 'rgba(22, 163, 74, 0.15)',
+    
+    // DISABLED: Very subtle overlay for disabled states
+    disabled: 'rgba(255, 255, 255, 0.02)',
+    
+    // FOCUS: Turf green focus ring
+    focus: 'rgba(22, 163, 74, 0.2)',
   },
 
-  // Status Colors
+  // Status Colors - Simplified semantic mapping
   status: {
-    success: '#10B981',      // Emerald-500
-    warning: '#F59E0B',      // Amber-500
-    error: '#EF4444',        // Red-500
-    info: '#3B82F6',         // Blue-500
+    // SUCCESS: Bright green for wins, positive trends
+    success: '#22C55E',
+    
+    // WARNING: Amber for neutral/caution states
+    warning: '#F59E0B',
+    
+    // ERROR: Red for losses, negative trends
+    error: '#EF4444',
+    
+    // INFO: Blue for informational content
+    info: '#3B82F6',
   },
 
-  // Gradients
+  // Gradients - Dark theme compatible
   gradients: {
-    primary: ['#6366F1', '#818CF8'],
-    surface: ['#FFFFFF', '#F9FAFB'],
-    accent: ['#F59E0B', '#FBBF24'],
-    success: ['#10B981', '#34D399'],
+    // PRIMARY: Turf green gradient for hero elements
+    primary: ['#16A34A', '#22C55E'],
+    
+    // SURFACE: Subtle dark gradients for depth
+    surface: ['#111827', '#1F2937'],
+    
+    // ACCENT: Success green gradient
+    accent: ['#22C55E', '#4ADE80'],
+    
+    // SUCCESS: Green gradient for positive elements
+    success: ['#22C55E', '#4ADE80'],
+    
+    // DANGER: Red gradient for negative elements
     danger: ['#EF4444', '#F87171'],
   },
 } as const;
