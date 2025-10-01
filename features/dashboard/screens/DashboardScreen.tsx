@@ -57,7 +57,7 @@ const HeroSection = ({
         <View style={{ flex: 1 }}>
           <Text style={{
             fontSize: 32,
-            fontFamily: Typography.fonts.display,
+            fontFamily: Typography.fonts.heading,
             color: Colors.text.primary,
             fontWeight: '700',
             marginBottom: Spacing.xs,

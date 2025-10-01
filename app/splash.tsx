@@ -8,6 +8,7 @@ import {
   StatusBar,
   Text,
   Easing,
+  ActivityIndicator,
 } from 'react-native';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
@@ -25,6 +26,7 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
   const logoOpacity = useRef(new Animated.Value(0)).current;
   const logoTranslateY = useRef(new Animated.Value(30)).current;
   const logoScale = useRef(new Animated.Value(0.8)).current;
+  const loadingOpacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     // Set status bar to light content for background
@@ -56,6 +58,14 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
       ]).start();
     }, 200);
 
+    // Show loading indicator after logo appears
+    setTimeout(() => {
+      Animated.timing(loadingOpacity, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+    }, 900);
 
     // Navigate to welcome screen - shorter duration for clean logo experience
     setTimeout(() => {
@@ -69,13 +79,13 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
     return () => {
       StatusBar.setBarStyle('light-content', true);
     };
-  }, [onFinish, logoOpacity, logoTranslateY, logoScale]);
+  }, [onFinish, logoOpacity, logoTranslateY, logoScale, loadingOpacity]);
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000000" />
 
-      {/* Centered Content */}
+      {/* Logo Container */}
       <View style={styles.centerContainer}>
         {/* Logo with Enhanced Animation */}
         <Animated.View
@@ -91,13 +101,29 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
           ]}
         >
           <Image
-            source={require('../assets/logos/logoWhite.png')}
+            source={require('../assets/logos/textLogoWhite.png')}
             style={styles.logo}
-            resizeMode="contain"
+            resizeMode="cover"
           />
         </Animated.View>
-
       </View>
+
+      {/* Loading Indicator at Bottom */}
+      <Animated.View
+        style={[
+          styles.loadingContainer,
+          {
+            opacity: loadingOpacity,
+          },
+        ]}
+      >
+        <ActivityIndicator 
+          size="large" 
+          color={Colors.text.primary} 
+          style={styles.spinner}
+        />
+        <Text style={styles.loadingText}>Loading...</Text>
+      </Animated.View>
     </View>
   );
 }
@@ -121,12 +147,27 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   logo: {
-    // Much bigger logo for maximum impact
-    width: Math.min(width, height) * 0.75,
-    height: Math.min(width, height) * 0.75,
-    maxWidth: 450,
-    maxHeight: 450,
-    minWidth: 300,
-    minHeight: 300,
+    // Much bigger text logo for maximum impact
+    width: width * 0.9, // 90% of screen width
+    height: 150, // Fixed height for text logo
+    maxWidth: 500,
+    maxHeight: 180,
+    minWidth: 350,
+    minHeight: 120,
+  },
+  loadingContainer: {
+    position: 'absolute',
+    bottom: 80, // Position near bottom of screen
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  spinner: {
+    marginBottom: 12,
+  },
+  loadingText: {
+    ...TYPOGRAPHY_TOKENS.bodyLarge,
+    color: Colors.text.primary,
   },
 });

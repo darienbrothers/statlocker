@@ -7,11 +7,11 @@
 export const Colors = {
   // Brand Colors - Turf & Steel Theme
   brand: {
-    // PRIMARY: Turf Green (#16A34A) - Main brand color
+    // PRIMARY: Updated Green (#11b981) - Main brand color
     // Usage: Primary buttons, FAB (Log Game), active highlights, progress bars, selected states
-    primary: '#16A34A',
+    primary: '#11b981',
     primaryTint: '#22C55E',    // Lighter green for hover states
-    primaryShade: '#15803D',   // Darker green for pressed states
+    primaryShade: '#0f9f73',   // Darker green for pressed states
     
     // SECONDARY: Steel Silver (#9CA3AF) - Secondary brand color  
     // Usage: Secondary UI elements, dividers, muted badges, inactive tab states
@@ -25,7 +25,7 @@ export const Colors = {
 
   // Surface Colors - Dark Theme Foundation
   surface: {
-    // BACKGROUND: Charcoal (#111827) - Main app background
+    // BACKGROUND: Updated Dark (#111827) - Main app background
     // Usage: Root app background, screen backgrounds
     primary: '#111827',
     
@@ -94,14 +94,14 @@ export const Colors = {
     // SECONDARY: Subtle borders for nested elements
     secondary: '#1E293B',
     
-    // FOCUS: Turf green for focused elements
-    focus: '#16A34A',
+    // FOCUS: Updated green for focused elements
+    focus: '#11b981',
     
     // STATUS BORDERS: Match semantic colors
     success: '#22C55E',
     warning: '#F59E0B',
     danger: '#EF4444',
-    accent: '#16A34A',
+    accent: '#11b981',
   },
 
   // Interactive States - Dark Theme Optimized
@@ -112,14 +112,14 @@ export const Colors = {
     // PRESSED: Stronger overlay for pressed states
     pressed: 'rgba(255, 255, 255, 0.1)',
     
-    // SELECTED: Turf green overlay for selected states
-    selected: 'rgba(22, 163, 74, 0.15)',
+    // SELECTED: Updated green overlay for selected states
+    selected: 'rgba(17, 185, 129, 0.15)',
     
     // DISABLED: Very subtle overlay for disabled states
     disabled: 'rgba(255, 255, 255, 0.02)',
     
-    // FOCUS: Turf green focus ring
-    focus: 'rgba(22, 163, 74, 0.2)',
+    // FOCUS: Updated green focus ring
+    focus: 'rgba(17, 185, 129, 0.2)',
   },
 
   // Status Colors - Simplified semantic mapping
@@ -139,8 +139,8 @@ export const Colors = {
 
   // Gradients - Dark theme compatible
   gradients: {
-    // PRIMARY: Turf green gradient for hero elements
-    primary: ['#16A34A', '#22C55E'],
+    // PRIMARY: Updated green gradient for hero elements
+    primary: ['#11b981', '#22C55E'],
     
     // SURFACE: Subtle dark gradients for depth
     surface: ['#111827', '#1F2937'],

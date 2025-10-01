@@ -5,16 +5,16 @@ export default function OnboardingLayout() {
     <Stack
       screenOptions={{
         headerShown: false,
-        contentStyle: { backgroundColor: '#000000' },
+        contentStyle: { backgroundColor: '#FFFFFF' },
         animation: 'slide_from_right',
       }}
     >
       <Stack.Screen name="welcome" />
-      <Stack.Screen name="coach-intro" />
+      <Stack.Screen name="onboarding-intro" />
+      <Stack.Screen name="onboarding-part-one" />
+      <Stack.Screen name="name" />
       <Stack.Screen name="sport-selection" />
-      <Stack.Screen name="name-input" />
       <Stack.Screen name="team-identity" />
-      <Stack.Screen name="complete" />
     </Stack>
   );
 }
